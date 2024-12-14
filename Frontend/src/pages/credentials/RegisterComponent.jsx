@@ -6,7 +6,7 @@ import "./RegisterComponent.scss";
 import "/src/AboutCard/ModelStyle.css";
 import logozp from "/src/assets/logoZP.png";
 import { useDispatch } from "react-redux";
-import { setUser, setUserId } from "../../store/userSlice"; // Import setUserId;
+import { setUser, setUserId } from "../../store/userSlice";
 import glogo from "/src/assets/Google__G__logo.svg.png";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -20,10 +20,20 @@ export default function RegisterComponent({ showModal, handleClose }) {
   const dispatch = useDispatch();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const sendOtp = async () => {
     try {
       if (!credentials.email) {
         toast.error("Email is required to send OTP");
+        return;
+      }
+
+      if (!isValidEmail(credentials.email)) {
+        toast.error("Please enter a valid email format");
         return;
       }
 
@@ -34,8 +44,16 @@ export default function RegisterComponent({ showModal, handleClose }) {
       toast.success("OTP sent to your email");
       setOtpSent(true);
     } catch (err) {
-      console.error(err);
-      toast.error("Failed to send OTP");
+      if (err.response && err.response.data) {
+        const errorMessage = err.response.data.message;
+        if (errorMessage === "Email already exists") {
+          toast.error("This email is already available");
+        } else {
+          toast.error(errorMessage || "Failed to send OTP");
+        }
+      } else {
+        toast.error("An unexpected error occurred while sending OTP");
+      }
     } finally {
       setLoading(false); // Stop loading spinner
     }
@@ -55,6 +73,16 @@ export default function RegisterComponent({ showModal, handleClose }) {
 
       if (credentials.username.includes(" ")) {
         toast.error("Username cannot contain spaces");
+        return;
+      }
+
+      if (!isValidEmail(credentials.email)) {
+        toast.error("Please enter a valid email format");
+        return;
+      }
+
+      if (credentials.password.length < 6) {
+        toast.error("Password must be at least 6 characters long");
         return;
       }
 
@@ -79,8 +107,11 @@ export default function RegisterComponent({ showModal, handleClose }) {
       navigate("/login");
       handleClose();
     } catch (err) {
-      console.error(err);
-      toast.error("Registration failed");
+      if (err.response && err.response.data) {
+        toast.error(err.response.data.message || "Registration failed");
+      } else {
+        toast.error("An unexpected error occurred during registration");
+      }
     }
   };
 
@@ -118,7 +149,11 @@ export default function RegisterComponent({ showModal, handleClose }) {
       navigate("/home");
     } catch (err) {
       console.error("Error handling Google Sign-In:", err);
-      toast.error("Google Sign-in failed. Please try again.");
+      if (err.response && err.response.data) {
+        toast.error(err.response.data.message || "Google Sign-in failed");
+      } else {
+        toast.error("An unexpected error occurred during Google Sign-In");
+      }
     }
   };
 
@@ -185,11 +220,7 @@ export default function RegisterComponent({ showModal, handleClose }) {
           </div>
           {!otpSent ? (
             <button onClick={sendOtp} className="login-btn" disabled={loading}>
-              {loading ? (
-                <span className="spinner"></span> // Add spinner class here
-              ) : (
-                "Send OTP"
-              )}
+              {loading ? <span className="spinner"></span> : "Send OTP"}
             </button>
           ) : (
             <button onClick={register} className="login-btn">
