@@ -20,17 +20,19 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Enable CORS for all routes
-// app.use(cors());
 const cors = require("cors");
 
 app.use(
   cors({
-    origin: ["https://comicplane.site"], // Allowed origins
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    origin: ["http://comicplane.site", "https://comicplane.site"], // Allow both http and https origins
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // If you're using cookies or sessions
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow headers that might be included in the request
   })
 );
+
+// Handle preflight requests
+app.options("*", cors()); // Handle OPTIONS requests for all routes
 
 const port = process.env.PORT || 5000;
 
