@@ -29,6 +29,7 @@ const Header = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const location = useLocation();
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,7 +40,7 @@ const Header = () => {
       const fetchUserDetails = async () => {
         try {
           const response = await axiosInstance.get(
-            `http://localhost:5000/api/users/${userId}`,
+            `${apiBaseUrl}/users/${userId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

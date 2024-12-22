@@ -10,14 +10,13 @@ import axiosInstance from "../../Auth/Axios";
 const Home = () => {
   const [posts, setPosts] = useState([]); // State for storing posts
   const [loading, setLoading] = useState(true); // State to track loading status
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   // Fetch posts from the backend
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axiosInstance.get(
-          "http://localhost:5000/api/posts"
-        );
+        const response = await axiosInstance.get(`${apiBaseUrl}/posts`);
         console.log(response.data);
         setPosts(response.data);
       } catch (error) {

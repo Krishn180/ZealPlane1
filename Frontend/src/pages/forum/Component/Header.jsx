@@ -30,6 +30,7 @@ const Header = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   // Fetch user details including profilePic
 
@@ -37,14 +38,11 @@ const Header = () => {
     const fetchUserDetails = async () => {
       if (userId) {
         try {
-          const response = await axios.get(
-            `http://localhost:5000/api/users/${userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`, // Include the token in the request
-              },
-            }
-          );
+          const response = await axios.get(`${apiBaseUrl}/users/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the token in the request
+            },
+          });
           setUserName(response.data.user.username);
           setProfilePic(response.data.user.profilePic);
         } catch (error) {

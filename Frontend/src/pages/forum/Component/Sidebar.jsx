@@ -11,6 +11,7 @@ const Sidebar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // To control modal visibility
   const [communities, setCommunities] = useState([]); // State to store communities
   const [error, setError] = useState(""); // To handle potential errors
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -20,9 +21,7 @@ const Sidebar = () => {
     // Fetch communities from the backend
     const fetchCommunities = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/communities"
-        ); // Adjust the API endpoint if needed
+        const response = await axios.get(`${apiBaseUrl}/communities`); // Adjust the API endpoint if needed
         setCommunities(response.data); // Assuming response.data is an array of communities
       } catch (error) {
         console.error("Error fetching communities:", error);
@@ -34,7 +33,6 @@ const Sidebar = () => {
   }, []); // Empty dependency array to fetch once when the component mounts
 
   return (
-    
     <div className="sidebar">
       <div className="sidebar-section">
         <Link to="/home" className="sidebar-link">

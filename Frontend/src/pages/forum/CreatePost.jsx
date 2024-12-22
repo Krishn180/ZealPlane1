@@ -24,6 +24,7 @@ const CreatePost = () => {
   const userId = userIdRedux || userIdLocalStorage;
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const getUniqueIdFromToken = () => {
     if (!token) {
@@ -58,14 +59,11 @@ const CreatePost = () => {
     const fetchUserDetails = async () => {
       if (userId) {
         try {
-          const response = await axios.get(
-            `http://localhost:5000/api/users/${userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`, // Include the token in the request
-              },
-            }
-          );
+          const response = await axios.get(`${apiBaseUrl}/users/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the token in the request
+            },
+          });
           const { username, profilePic } = response.data.user;
           setFormData((prevData) => ({
             ...prevData,

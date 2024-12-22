@@ -22,6 +22,7 @@ const PostDetail = () => {
   const [status, setStatus] = useState(null);
   const [hasVoted, setHasVoted] = useState(null);
   const token = localStorage.getItem("token");
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const getCurrentUserId = () => {
     const token = localStorage.getItem("token");
@@ -42,10 +43,9 @@ const PostDetail = () => {
   // Define fetchUserVote outside useEffect
   const fetchUserVote = async () => {
     try {
-      const res = await axiosInstance.get(
-        `http://localhost:5000/api/posts/${id}/vote`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await axiosInstance.get(`${apiBaseUrl}/posts/${id}/vote`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       console.log("User has interacted:", res.data.hasVoted);
       setHasVoted(res.data.hasVoted);
 
@@ -69,14 +69,11 @@ const PostDetail = () => {
           return;
         }
 
-        const response = await axios.get(
-          `http://localhost:5000/api/posts/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${apiBaseUrl}/posts/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         console.log("post is", response.data);
 
@@ -105,7 +102,7 @@ const PostDetail = () => {
 
       // Check if the user has already voted
       const checkUserVoteResponse = await axios.get(
-        `http://localhost:5000/api/posts/${id}/vote`,
+        `${apiBaseUrl}/posts/${id}/vote`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const { hasVoted, voteValue: userVoteValue } = checkUserVoteResponse.data;
@@ -153,7 +150,7 @@ const PostDetail = () => {
 
       // Sync with backend (Update vote on the server)
       const res = await axios.put(
-        `http://localhost:5000/api/posts/votes/${id}`,
+        `${apiBaseUrl}/posts/votes/${id}`,
         { voteType: voteValue },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -170,7 +167,7 @@ const PostDetail = () => {
   const handleEditPost = async (updatedData) => {
     try {
       const response = await axiosInstance.put(
-        `http://localhost:5000/api/posts/${post._id}`,
+        `${apiBaseUrl}/posts/${post._id}`,
         updatedData,
         {
           headers: {
@@ -195,7 +192,7 @@ const PostDetail = () => {
     if (!confirmDelete) return;
 
     try {
-      await axiosInstance.delete(`http://localhost:5000/api/posts/${id}`, {
+      await axiosInstance.delete(`${apiBaseUrl}/posts/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

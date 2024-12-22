@@ -25,18 +25,16 @@ const Home = () => {
   const dispatch = useDispatch(); // Initialize useDispatch hook
   const [profilePic, setProfilePic] = useState(null);
   const token = localStorage.getItem("token");
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-            },
-          }
-        );
+        const response = await axios.get(`${apiBaseUrl}/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        });
         console.log("your userid", userId);
         setUserDetails(response.data);
         setProfilePic(response.data.profilePic);

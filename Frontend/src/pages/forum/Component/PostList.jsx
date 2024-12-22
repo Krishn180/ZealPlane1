@@ -9,6 +9,7 @@ import "./postList.scss";
 const PostList = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts || []);
   const token = localStorage.getItem("token");
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const handleShare = (postId) => {
     console.log(`Shared post with ID: ${postId}`);
@@ -31,7 +32,7 @@ const PostList = ({ initialPosts }) => {
       if (isUpvoted) {
         // Remove the vote
         await axios.put(
-          `http://localhost:5000/api/posts/votes/${postId}`,
+          `${apiBaseUrl}/posts/votes/${postId}`,
           { voteType: 0 },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -39,7 +40,7 @@ const PostList = ({ initialPosts }) => {
       } else {
         // Add an upvote
         await axios.put(
-          `http://localhost:5000/api/posts/votes/${postId}`,
+          `${apiBaseUrl}/posts/votes/${postId}`,
           { voteType: 1 },
           { headers: { Authorization: `Bearer ${token}` } }
         );
