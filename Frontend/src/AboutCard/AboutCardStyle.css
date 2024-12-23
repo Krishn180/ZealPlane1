@@ -166,6 +166,9 @@
     line-height: 25px;
     /* font-family: 'Lato', sans-serif;  */
 }
+.card1 p span{
+    font-weight: bold;
+}
 
 @media screen and (max-width: 850px){
 

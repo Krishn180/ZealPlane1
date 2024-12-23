@@ -4,7 +4,6 @@ const contactsRoutes = require("./contactsRoutes");
 const userRoutes = require("./userRoutes");
 const errorHandler = require("./midleware/errorhandler");
 const connectDb = require("./config/dbConnection");
-const cors = require("cors");
 const projectRoutes = require("./routes/projectRoutes");
 const commentRouter = require("./routes/commentRoutes");
 const likeRouter = require("./routes/likeRoutes");
@@ -34,7 +33,8 @@ app.use(
 // Handle preflight requests
 app.options("*", cors()); // Handle OPTIONS requests for all routes
 
-const port = process.env.PORT || 5000;
+const port =
+  process.env.PORT || (process.env.NODE_ENV === "production" ? 5000 : 4000);
 
 // Route middlewares
 app.use("/api/contacts", contactsRoutes);
@@ -49,5 +49,9 @@ app.use(errorHandler);
 
 // Start the Express server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(
+    `Server is running on port ${port} in ${
+      process.env.NODE_ENV || "development"
+    } mode`
+  );
 });

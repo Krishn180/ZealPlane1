@@ -1,6 +1,6 @@
 import React from "react";
 import "./LandingHeroSecStyle.scss";
-import ther1 from "../assets/spiderman-with-colorful-background.jpg"; // Import your image here
+import ther1 from "../assets/heroimge.jpg"; // Import your image here
 
 const LandingHeroSection = () => {
   return (
@@ -8,12 +8,13 @@ const LandingHeroSection = () => {
       <div className="image-wrapper-landing">
         <img src={ther1} alt="Hero" className="imge" />
         <div className="text">
-          <h1>Responsive meta tag</h1>
+          <h1>Join The Conversation!</h1>
           <p>
-            Chat History is off for this browser. When history is turned off, new chats
-            on this browser won't appear in your history on any of your devices, be used
-            to train our models, or stored for longer than 30 days. This setting does not
-            sync across browsers or devices.
+            ComicPlane is a community-driven platform where comic book fans can
+            gather, discuss, connect with artist and share their love for the
+            medium. Participate in forums, rate and review comics, and connect
+            with fellow enthusiasts. Become part of a vibrant and inclusive
+            community that celebrates all things comics!
           </p>
           <button>Zeal</button>
           <button>Passion</button>

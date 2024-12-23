@@ -62,4 +62,16 @@
   .text button:hover {
     background: rgba(255, 255, 255, 0.3);
   }
-  
+
+
+  @media screen and (max-width: 850px){
+    .text{
+      top: 80%;
+      padding-left:30px;
+      width: 90%;
+
+    }
+    .image-wrapper-landing::before{
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0) 43%);
+    }
+  }

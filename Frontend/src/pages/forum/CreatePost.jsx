@@ -130,16 +130,12 @@ const CreatePost = () => {
     setLoading(true); // Set loading state to true when submitting
 
     try {
-      const res = await axiosInstance.post(
-        "http://localhost:5000/api/posts",
-        postData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axiosInstance.post(`${apiBaseUrl}/posts`, postData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log("Post created successfully!", res.data);
       navigate(`/post/${res.data._id}`);
       setFormData({
