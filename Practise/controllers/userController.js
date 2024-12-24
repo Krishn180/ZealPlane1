@@ -25,20 +25,7 @@ const sendOtpEmail = async (email, otp) => {
       from: "krishnakumar050.kk@gmail.com",
       to: email,
       subject: "Your OTP for Registration",
-      text: `Dear User,
-    
-    Thank you for registering with us!
-    
-    Your One-Time Password (OTP) for completing the registration process is:
-      
-    ${otp}
-    
-    This OTP is valid for 15 minutes. Please do not share it with anyone.
-    
-    If you did not request this, please ignore this email.
-    
-    Regards,  
-    The Team`,
+      text: `Your OTP for registration is: ${otp}`,
     };
 
     // Send email
@@ -54,6 +41,7 @@ const registerUser = asynchandler(async (req, res) => {
     username,
     email,
     password,
+    otp,
     fullName,
     description,
     dob,
@@ -68,32 +56,63 @@ const registerUser = asynchandler(async (req, res) => {
 
   console.log("Register User Request Body:", req.body);
 
-  // Check if the email already exists
-  const userByEmail = await User.findOne({ email });
-  if (userByEmail) {
+  // if (!username || !email || !password) {
+  //   res.status(400);
+  //   console.log("Missing required fields");
+  //   throw new Error("Username, email, and password are mandatory!");
+  // }
+
+  // Step 2: Check if the username or email already exists
+  const usernameExists = await User.findOne({ username });
+  if (usernameExists) {
     res.status(400);
-    console.log("User already registered with this email:", userByEmail);
+    console.log("Username already exists:", usernameExists);
+    throw new Error("Username already taken!");
+  }
+
+  const userAvailable = await User.findOne({ email });
+  if (userAvailable) {
+    res.status(400);
+    console.log("User already registered:", userAvailable);
     throw new Error("User with this email already registered!");
   }
 
-  // Check if the username already exists
-  const userByUsername = await User.findOne({ username });
-  if (userByUsername) {
-    res.status(400);
-    console.log("Username already taken:", userByUsername);
-    throw new Error("Username is already taken!");
+  // Step 3: OTP Verification
+  if (!otp) {
+    // Generate OTP if not provided
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+    otpStore.set(email, generatedOtp); // Store OTP temporarily
+    console.log("stored otp is:", otpStore);
+
+    console.log(`Generated OTP for ${email}: ${generatedOtp}`);
+
+    // Send OTP to user's email
+    await sendOtpEmail(email, generatedOtp);
+
+    return res.status(200).json({ message: "OTP sent to email!" });
+  } else {
+    // Verify the provided OTP
+    const storedOtp = otpStore.get(email);
+
+    if (!storedOtp || parseInt(otp) !== storedOtp) {
+      res.status(400);
+      console.log("Invalid or expired OTP");
+      throw new Error("Invalid or expired OTP!");
+    }
+
+    // OTP is valid; remove from store
+    otpStore.delete(email);
   }
 
-  // Proceed with user registration
-  console.log("Proceeding with user registration...");
-
+  // Step 4: Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
   console.log("Hashed Password:", hashedPassword);
 
+  // Step 5: Generate unique ID and status
   const uniqueId = uuidv4();
   const status = `Active-${uniqueId}`;
 
-  // Create a new user
+  // Step 6: Create a new user
   const user = await User.create({
     username,
     email,
