@@ -14,6 +14,8 @@ export default function RegisterComponent({ showModal, handleClose }) {
   let navigate = useNavigate();
   const [credentials, setCredentials] = useState({});
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [otp, setOtp] = useState(""); // State for OTP input
+  const [otpSent, setOtpSent] = useState(false); // State to track if OTP is sent
   const [loading, setLoading] = useState(false); // State for button loading
   const dispatch = useDispatch();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -21,6 +23,40 @@ export default function RegisterComponent({ showModal, handleClose }) {
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const sendOtp = async () => {
+    try {
+      if (!credentials.email) {
+        toast.error("Email is required to send OTP");
+        return;
+      }
+
+      if (!isValidEmail(credentials.email)) {
+        toast.error("Please enter a valid email format");
+        return;
+      }
+
+      setLoading(true); // Start loading spinner
+      const response = await axios.post(`${apiBaseUrl}/users/register`, {
+        email: credentials.email,
+      });
+      toast.success("OTP sent to your email");
+      setOtpSent(true);
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const errorMessage = err.response.data.message;
+        if (errorMessage === "Email already exists") {
+          toast.error("This email is already available");
+        } else {
+          toast.error(errorMessage || "Failed to send OTP");
+        }
+      } else {
+        toast.error("An unexpected error occurred while sending OTP");
+      }
+    } finally {
+      setLoading(false); // Stop loading spinner
+    }
   };
 
   const register = async () => {
@@ -55,9 +91,15 @@ export default function RegisterComponent({ showModal, handleClose }) {
         return;
       }
 
-      // Directly register the user without OTP
+      if (!otp) {
+        toast.error("Please enter the OTP sent to your email");
+        return;
+      }
+
+      // Verify OTP and register the user
       const response = await axios.post(`${apiBaseUrl}/users/register`, {
         ...credentials,
+        otp,
       });
 
       toast.success("Successfully registered");
@@ -167,10 +209,24 @@ export default function RegisterComponent({ showModal, handleClose }) {
               className="common-input"
               placeholder="Confirm Password"
             />
+            {otpSent && (
+              <input
+                onChange={(event) => setOtp(event.target.value)}
+                type="text"
+                className="common-input"
+                placeholder="Enter OTP"
+              />
+            )}
           </div>
-          <button onClick={register} className="login-btn" disabled={loading}>
-            {loading ? <span className="spinner"></span> : "Register"}
-          </button>
+          {!otpSent ? (
+            <button onClick={sendOtp} className="login-btn" disabled={loading}>
+              {loading ? <span className="spinner"></span> : "Send OTP"}
+            </button>
+          ) : (
+            <button onClick={register} className="login-btn">
+              Verify OTP & Join
+            </button>
+          )}
           <div className="google-btn-container">
             <p className="go-to-signup">
               Already on ZealPlane?{" "}
