@@ -297,56 +297,69 @@ const loginUser = asynchandler(async (req, res) => {
     throw new Error("All fields are mandatory!");
   }
 
-  // Check if user exists
+  // Step 1: Check if user exists in the database
+  console.log("Searching for user with email:", email);
   const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    console.log("User not found:", email);
+    throw new Error("User not found");
+  }
   console.log("User found in database:", user);
 
-  if (user && (await bcrypt.compare(password, user.password))) {
-    // User authenticated, generate access token and refresh token
-    const accessToken = jwt.sign(
-      {
-        userId: user._id,
-        email: user.email,
-        uniqueId: user.uniqueId,
-        username: user.username,
-        profilePic: user.profilePic,
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1h" } // Access token expires in 5 seconds
-    );
-
-    // Generate refresh token with longer expiry
-    const refreshToken = jwt.sign(
-      { userId: user._id },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "30d" } // Refresh token expires in 30 days
-    );
-
-    // Send refresh token as an HTTP-only cookie
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production (HTTPS)
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      sameSite: "Strict", // Ensures the cookie is sent only in requests to the same domain
-    });
-
-    // Send the access token in the response body
-    res.status(200).json({
-      _id: user._id,
-      email: user.email,
-      username: user.username,
-      fullName: user.fullName,
-      profilePic: user.profilePic,
-      jobRole: user.jobRole,
-      token: accessToken, // Access token
-      refreshToken: refreshToken, // Send the refresh token here
-      id: user.uniqueId,
-    });
-  } else {
+  // Step 2: Compare the password provided with the hashed password in the database
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  if (!isPasswordCorrect) {
     res.status(401);
-    console.log("Invalid email or password");
+    console.log("Invalid password for user:", email);
     throw new Error("Invalid email or password");
   }
+  console.log("Password matches for user:", email);
+
+  // Step 3: Generate access token
+  const accessToken = jwt.sign(
+    {
+      userId: user._id,
+      email: user.email,
+      uniqueId: user.uniqueId,
+      username: user.username,
+      profilePic: user.profilePic,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: "1h" } // Access token expires in 1 hour
+  );
+  console.log("Access token generated successfully for user:", email);
+
+  // Step 4: Generate refresh token
+  const refreshToken = jwt.sign(
+    { userId: user._id },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: "30d" } // Refresh token expires in 30 days
+  );
+  console.log("Refresh token generated successfully for user:", email);
+
+  // Step 5: Send refresh token as an HTTP-only cookie
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Use secure cookies in production (HTTPS)
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    sameSite: "Strict", // Ensures the cookie is sent only in requests to the same domain
+  });
+  console.log("Refresh token set in cookies");
+
+  // Step 6: Send the access token and user details in the response body
+  res.status(200).json({
+    _id: user._id,
+    email: user.email,
+    username: user.username,
+    fullName: user.fullName,
+    profilePic: user.profilePic,
+    jobRole: user.jobRole,
+    token: accessToken, // Access token
+    refreshToken: refreshToken, // Refresh token
+    id: user.uniqueId,
+  });
+  console.log("User login successful for:", email);
 });
 
 const currentUser = asynchandler(async (req, res) => {
