@@ -38,9 +38,12 @@ export default function RegisterComponent({ showModal, handleClose }) {
       }
 
       setLoading(true); // Start loading spinner
-      const response = await axios.post(`${apiBaseUrl}/users/register`, {
-        email: credentials.email,
-      });
+      const response = await axios.post(
+        `http://api.comicplane.site/api/users/register`,
+        {
+          email: credentials.email,
+        }
+      );
       toast.success("OTP sent to your email");
       setOtpSent(true);
     } catch (err) {
@@ -97,10 +100,13 @@ export default function RegisterComponent({ showModal, handleClose }) {
       }
 
       // Verify OTP and register the user
-      const response = await axios.post(`${apiBaseUrl}/users/register`, {
-        ...credentials,
-        otp,
-      });
+      const response = await axios.post(
+        `http://api.comicplane.site/api/users/register`,
+        {
+          ...credentials,
+          otp,
+        }
+      );
 
       toast.success("Successfully registered");
       dispatch(setUser(response.data.user));
@@ -121,9 +127,12 @@ export default function RegisterComponent({ showModal, handleClose }) {
       console.log("Google Token:", googleToken);
 
       // Send the Google token to your backend for verification and login
-      const response = await axios.post(`${apiBaseUrl}/users/google-login`, {
-        token: googleToken,
-      });
+      const response = await axios.post(
+        `http://api.comicplane.site/api/users/google-login`,
+        {
+          token: googleToken,
+        }
+      );
 
       const {
         id: userId,

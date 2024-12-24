@@ -3,10 +3,10 @@ import Slider from "react-slick";
 import "../AboutCard/Section2Style.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import section3 from "../assets/zp1.avif";
+import section3 from "../assets/gmofdeath.jpg";
 
-import sec3 from "../assets/zp-4.avif";
-import sec4 from "../assets/zp7.avif";
+import sec3 from "../assets/gameofdeath.jpg";
+import sec4 from "../assets/landslideimage.jpg";
 
 const Section3Data = [
   {

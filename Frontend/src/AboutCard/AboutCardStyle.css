@@ -44,10 +44,13 @@
 
 .backa-image {
     text-align: center;
-    
+   
     margin-top: 50px; /* Space above the image */
 }
 .backa-image img{
+    width: 500px;
+    object-fit: cover;
+    height: 460px;
     box-shadow: 0 0 8px 3px rgba(46, 9, 54, 0.7), 0 0 65px 10px rgba(6, 25, 51, 0.5), 0 0 30px 7px rgba(5, 46, 33, 0.4);
 }
 
@@ -158,16 +161,17 @@
 }
 
 .card1 p {
-    text-align: center;
+    text-align: start;
     padding: 1rem;
     margin: 0;
-    color: #ffffff; 
+    color: #d4d2d2; 
     font-size: 0.975rem; 
     line-height: 25px;
     /* font-family: 'Lato', sans-serif;  */
 }
 .card1 p span{
     font-weight: bold;
+    color: #fff;
 }
 
 @media screen and (max-width: 850px){
@@ -192,6 +196,31 @@
 }
 .card1 p{
     font-size: 16px;
+}
+.backa-comic-main {
+    flex-direction: column; /* Stack sections vertically */
+}
+
+.left-banka,
+.right-banka {
+    width: 100%; /* Full width for mobile */
+    border-right: none; /* Remove vertical line */
+    border-bottom: 1px solid #1d325f; /* Add horizontal line */
+}
+
+.left-banka::before {
+    bottom: -10px; /* Adjust star position */
+    right: 50%; /* Center star */
+    transform: translateX(50%);
+}
+
+.left-banka::after {
+    content: none; /* Remove vertical line shadow */
+}
+
+.backa-image img {
+    width: 90%; /* Adjust image size for mobile */
+    height: auto; /* Maintain aspect ratio */
 }
 
 }

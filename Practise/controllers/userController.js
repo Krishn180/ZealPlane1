@@ -88,6 +88,12 @@ const registerUser = asynchandler(async (req, res) => {
     // Verify the provided OTP
     const storedOtp = otpStore.get(email);
 
+    if (!storedOtp || parseInt(otp) !== storedOtp) {
+      res.status(400);
+      console.log("Invalid or expired OTP for email:", email);
+      throw new Error("Invalid or expired OTP!");
+    }
+
     // OTP is valid; remove from store
     otpStore.delete(email);
     console.log("OTP verified successfully for email:", email);

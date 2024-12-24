@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./AboutCardStyle.css";
 import growth from "../assets/growth.png";
 import reflecting from "../assets/reflecting.png";
+import bumba from "../assets/landingimage.jpg";
 
 const AboutCard = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -50,61 +51,61 @@ const AboutCard = () => {
                 className={`demon-slayer-title ${isVisible ? "visible" : ""}`}
                 style={{ fontSize: "40px" }}
               >
-                Demon Slayer:
+                Immerse Yourself In
                 <br />
-                Kimetsu No Yaiba
+                Our Vibrant Community
               </h1>
             </div>
-            <div
-              className="right-banka adventure-text"
-              style={{ fontSize: "20px" }}
-            >
+            <div className="right-banka adventure-text">
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-                doloremque veniam dolore dignissimos, molestiae illo impedit
-                excepturi sint, rerum ut id quisquam voluptatum quas nam nemo
-                harum est. Ipsum natus iure sint dolor aperiam blanditiis quis
-                ut pariatur minus harum, incidunt suscipit voluptate,
-                repudiandae eveniet autem rerum numquam. Dolor perferendis quam
-                saepe corrupti nisi asperiores illum unde debitis consectetur
-                mollitia.
+                <b>
+                  <i>Engage with our Community</i>
+                </b>{" "}
+                by{" "}
+                <b>
+                  <i>Rating and Reviewing</i>
+                </b>{" "}
+                the latest comics,{" "}
+                <b>
+                  <i>Sharing your thoughts</i>
+                </b>{" "}
+                to help others Discover new Favorites,{" "}
+                <b>
+                  <i>Participating in lively forum discussions</i>
+                </b>{" "}
+                with fellow fans, and{" "}
+                <b>
+                  <i>testing your comic book knowledge</i>
+                </b>{" "}
+                through exciting
+                <b>
+                  <i>polls and quizzes!</i>
+                </b>
               </p>
             </div>
           </div>
 
           <div className="backa-image">
-            <img
-              src="/src/assets/man-stands-front-planet-with-colorfu.avif"
-              alt=""
-            />
+            <img src={bumba} alt="" />
           </div>
         </div>
 
         <h1 className={`demon-slayer-title ${isVisible ? "visible" : ""}`}>
           Many Great Features
         </h1>
-        {/* <p>
-          Again, there are other issues like stiff competition, reduced
-          attention span of masses, heavy effort-less reward, discouraging
-          algorithm, one dimensional approach for reward. Thus, in the market of
-          fish, only skins and drama is sold out. which is very good from a
-          profit’s point of view but that also discourages the creators that
-          lacks the initial push and dedication, lack of required views leads to
-          demoralization...
-        </p> */}
       </div>
 
       <div className="cardBox">
         <div className="card1">
           <h1>Discover</h1>
           <p>
-            <span>Explore the Universe:</span>Browse our vast library of comics
+            <span>Explore the Universe: </span>Browse our vast library of comics
             and discover new favorites.
             <br />
-            <span>New Releases: </span>Stay up-to-date with the latest comic
+            <span>New Releases: </span> Stay up-to-date with the latest comic
             book releases.
             <br />
-            <span>Staff Picks:</span>Check out our team's favorite comics and
+            <span>Staff Picks:</span> Check out our team's favorite comics and
             get inspired.
           </p>
           <img src={growth} alt="About feature" className="featureImage" />
@@ -118,7 +119,7 @@ const AboutCard = () => {
             <span>Community Events:</span> Attend online events, webinars, and
             workshops to connect with other enthusiasts.
             <br />
-            <span>Make Friends:</span>Connect with like-minded fans and build
+            <span>Make Friends:</span> Connect with like-minded fans and build
             lasting relationships.
           </p>
           <img src={reflecting} alt="About feature" className="featureImage" />

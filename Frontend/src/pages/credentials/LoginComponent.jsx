@@ -25,10 +25,13 @@ export default function LoginComponent() {
     try {
       toast.success("Signed In to ZealPlane!");
 
-      const response = await axios.post(`${apiBaseUrl}/users/login`, {
-        email: credentials.email,
-        password: credentials.password,
-      });
+      const response = await axios.post(
+        `http://localhost:4001/api/users/login`,
+        {
+          email: credentials.email,
+          password: credentials.password,
+        }
+      );
 
       console.log("Response Data after logging in:", response.data);
 
