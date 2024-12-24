@@ -110,6 +110,7 @@ const registerUser = asynchandler(async (req, res) => {
   const uniqueId = uuidv4();
   const status = `Active-${uniqueId}`;
 
+  // Step 6: Create a new user
   const user = await User.create({
     username,
     email,
@@ -126,19 +127,23 @@ const registerUser = asynchandler(async (req, res) => {
     address: address || null,
     jobRole: jobRole || null,
     level: level || null,
-    otpVerified, // Indicate whether OTP was successfully verified
   });
 
   console.log(`User created: ${user}`);
 
-  // Send success response
-  res.status(201).json({
-    _id: user.id,
-    email: user.email,
-    uniqueId: user.uniqueId,
-    status: user.status,
-    otpVerified,
-  });
+  // Step 7: Send success response
+  if (user) {
+    res.status(201).json({
+      _id: user.id,
+      email: user.email,
+      uniqueId: user.uniqueId,
+      status: user.status,
+    });
+  } else {
+    res.status(400);
+    console.log("Invalid user data");
+    throw new Error("User data is not valid");
+  }
 });
 
 // Google Login
