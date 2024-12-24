@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 // Temporary storage for OTPs
 const otpStore = new Map();
 
+// Helper function to send OTP via email
 const sendOtpEmail = async (email, otp) => {
   try {
     // Configure nodemailer transporter
@@ -25,17 +26,18 @@ const sendOtpEmail = async (email, otp) => {
       from: "krishnakumar050.kk@gmail.com",
       to: email,
       subject: "Your OTP for Registration",
-      text: `Your OTP for registration is: ${otp}`,
+      text: `Hello! Your OTP for registration is: ${otp}. Please enter it within the next 10 minutes.`,
     };
 
     // Send email
     await transporter.sendMail(mailOptions);
-    console.log("OTP sent to:", email); // Log success
+    console.log(`OTP sent successfully to: ${email}`); // Log success
   } catch (error) {
     console.error("Error sending OTP email:", error); // Log any errors
   }
 };
 
+// Register user handler
 const registerUser = asynchandler(async (req, res) => {
   const {
     username,
@@ -55,12 +57,6 @@ const registerUser = asynchandler(async (req, res) => {
   } = req.body;
 
   console.log("Register User Request Body:", req.body);
-
-  // if (!username || !email || !password) {
-  //   res.status(400);
-  //   console.log("Missing required fields");
-  //   throw new Error("Username, email, and password are mandatory!");
-  // }
 
   // Step 2: Check if the username or email already exists
   const usernameExists = await User.findOne({ username });
@@ -82,8 +78,6 @@ const registerUser = asynchandler(async (req, res) => {
     // Generate OTP if not provided
     const generatedOtp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
     otpStore.set(email, generatedOtp); // Store OTP temporarily
-    console.log("stored otp is:", otpStore);
-
     console.log(`Generated OTP for ${email}: ${generatedOtp}`);
 
     // Send OTP to user's email
@@ -96,12 +90,13 @@ const registerUser = asynchandler(async (req, res) => {
 
     if (!storedOtp || parseInt(otp) !== storedOtp) {
       res.status(400);
-      console.log("Invalid or expired OTP");
+      console.log("Invalid or expired OTP for email:", email);
       throw new Error("Invalid or expired OTP!");
     }
 
     // OTP is valid; remove from store
     otpStore.delete(email);
+    console.log("OTP verified successfully for email:", email);
   }
 
   // Step 4: Hash the password
@@ -112,7 +107,7 @@ const registerUser = asynchandler(async (req, res) => {
   const uniqueId = uuidv4();
   const status = `Active-${uniqueId}`;
 
-  // Step 6: Create a new user
+  // Step 6: Create a new user in the database
   const user = await User.create({
     username,
     email,
@@ -131,7 +126,7 @@ const registerUser = asynchandler(async (req, res) => {
     level: level || null,
   });
 
-  console.log(`User created: ${user}`);
+  console.log("User created successfully:", user);
 
   // Step 7: Send success response
   if (user) {
@@ -141,6 +136,7 @@ const registerUser = asynchandler(async (req, res) => {
       uniqueId: user.uniqueId,
       status: user.status,
     });
+    console.log("User registration successful:", user.email);
   } else {
     res.status(400);
     console.log("Invalid user data");
