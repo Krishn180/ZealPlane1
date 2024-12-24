@@ -69,14 +69,6 @@ const registerUser = asynchandler(async (req, res) => {
 
   console.log("Register User Request Body:", req.body);
 
-  // Check if the username already exists
-  const usernameExists = await User.findOne({ username });
-  if (usernameExists) {
-    res.status(400);
-    console.log("Username already exists:", usernameExists);
-    throw new Error("Username already taken!");
-  }
-
   // Check if the email already exists
   const userAvailable = await User.findOne({ email });
   if (userAvailable) {
