@@ -37,7 +37,6 @@ const sendOtpEmail = async (email, otp) => {
   }
 };
 
-// Register user handler
 const registerUser = asynchandler(async (req, res) => {
   try {
     const {
@@ -55,6 +54,7 @@ const registerUser = asynchandler(async (req, res) => {
       address,
       jobRole,
       level,
+      googleId, // Will be generated in backend if not provided
     } = req.body;
 
     console.log("Received Request Body:", req.body);
@@ -99,21 +99,28 @@ const registerUser = asynchandler(async (req, res) => {
     }
 
     // Step 4: Hash the password
-    console.log("Hashing password...");
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Hashed Password:", hashedPassword);
+    let hashedPassword = null;
+    if (!googleId) {
+      console.log("Hashing password...");
+      hashedPassword = await bcrypt.hash(password, 10);
+      console.log("Hashed Password:", hashedPassword);
+    }
 
     // Step 5: Generate unique ID and status
     const uniqueId = uuidv4();
     const status = `Active-${uniqueId}`;
     console.log("Generated Unique ID and Status:", uniqueId, status);
 
-    // Step 6: Create a new user in the database
+    // Step 6: If googleId is not provided, generate a dummy googleId
+    const generatedGoogleId = googleId || uuidv4(); // Generate googleId if not present
+
+    // Step 7: Create a new user in the database
     console.log("Creating user in database...");
     const user = await User.create({
       username,
       email,
-      password: hashedPassword,
+      password: googleId ? undefined : hashedPassword, // If googleId exists, skip the password field
+      googleId: generatedGoogleId, // If googleId exists, set it here
       uniqueId,
       status,
       fullName: fullName || null,
@@ -130,7 +137,7 @@ const registerUser = asynchandler(async (req, res) => {
 
     console.log("User created successfully:", user);
 
-    // Step 7: Send success response
+    // Step 8: Send success response
     if (user) {
       res.status(201).json({
         _id: user.id,

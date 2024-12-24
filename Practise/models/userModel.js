@@ -81,6 +81,7 @@ const userSchema = new mongoose.Schema(
     googleId: {
       type: String,
       default: null,
+      unique: true, // Ensure Google ID is unique
     },
     googleToken: {
       type: String,
@@ -91,9 +92,6 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-// Create a sparse and unique index on the 'googleId' field
-userSchema.index({ googleId: 1 }, { unique: true, sparse: true });
 
 // Create a unique index on the 'username' field
 userSchema.index({ username: 1 }, { unique: true });
