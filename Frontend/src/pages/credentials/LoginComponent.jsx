@@ -26,7 +26,7 @@ export default function LoginComponent() {
       toast.success("Signed In to ZealPlane!");
 
       const response = await axios.post(
-        `http://localhost:4001/api/users/login`,
+        `http://api.comicplane.site/api/users/login`,
         {
           email: credentials.email,
           password: credentials.password,
