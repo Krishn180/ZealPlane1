@@ -25,7 +25,7 @@ const sendOtpEmail = async (email, otp) => {
       from: "krishnakumar050.kk@gmail.com",
       to: email,
       subject: "Your OTP for Registration",
-      text: `Dear ${username || "User"},
+      text: `Dear User',
     
     Thank you for registering with us!
     
