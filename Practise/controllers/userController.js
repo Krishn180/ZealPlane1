@@ -25,7 +25,7 @@ const sendOtpEmail = async (email, otp) => {
       from: "krishnakumar050.kk@gmail.com",
       to: email,
       subject: "Your OTP for Registration",
-      text: `Dear User',
+      text: `Dear User,
     
     Thank you for registering with us!
     
@@ -54,7 +54,6 @@ const registerUser = asynchandler(async (req, res) => {
     username,
     email,
     password,
-    otp,
     fullName,
     description,
     dob,
@@ -70,38 +69,22 @@ const registerUser = asynchandler(async (req, res) => {
   console.log("Register User Request Body:", req.body);
 
   // Check if the email already exists
-  const userAvailable = await User.findOne({ email });
-  if (userAvailable) {
+  const userByEmail = await User.findOne({ email });
+  if (userByEmail) {
     res.status(400);
-    console.log("User already registered:", userAvailable);
+    console.log("User already registered with this email:", userByEmail);
     throw new Error("User with this email already registered!");
   }
 
-  let otpVerified = false;
-
-  // OTP verification process
-  if (!otp) {
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
-    otpStore.set(email, generatedOtp); // Store OTP temporarily
-
-    console.log(`Generated OTP for ${email}: ${generatedOtp}`);
-    await sendOtpEmail(email, generatedOtp);
-
-    return res.status(200).json({ message: "OTP sent to email!" });
-  } else {
-    const storedOtp = otpStore.get(email);
-    console.log(`Provided OTP: ${otp}, Stored OTP: ${storedOtp}`);
-
-    if (!storedOtp || parseInt(otp) !== storedOtp) {
-      console.log("OTP verification failed: Invalid or expired OTP");
-    } else {
-      console.log("OTP verification successful");
-      otpVerified = true;
-      otpStore.delete(email); // Remove OTP from store after verification
-    }
+  // Check if the username already exists
+  const userByUsername = await User.findOne({ username });
+  if (userByUsername) {
+    res.status(400);
+    console.log("Username already taken:", userByUsername);
+    throw new Error("Username is already taken!");
   }
 
-  // Proceed with user registration, even if OTP verification fails
+  // Proceed with user registration
   console.log("Proceeding with user registration...");
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -110,7 +93,7 @@ const registerUser = asynchandler(async (req, res) => {
   const uniqueId = uuidv4();
   const status = `Active-${uniqueId}`;
 
-  // Step 6: Create a new user
+  // Create a new user
   const user = await User.create({
     username,
     email,
