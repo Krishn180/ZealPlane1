@@ -39,108 +39,114 @@ const sendOtpEmail = async (email, otp) => {
 
 // Register user handler
 const registerUser = asynchandler(async (req, res) => {
-  const {
-    username,
-    email,
-    password,
-    otp,
-    fullName,
-    description,
-    dob,
-    gender,
-    profilePic,
-    location,
-    contactNumber,
-    address,
-    jobRole,
-    level,
-  } = req.body;
+  try {
+    const {
+      username,
+      email,
+      password,
+      otp,
+      fullName,
+      description,
+      dob,
+      gender,
+      profilePic,
+      location,
+      contactNumber,
+      address,
+      jobRole,
+      level,
+    } = req.body;
 
-  console.log("Register User Request Body:", req.body);
+    console.log("Received Request Body:", req.body);
 
-  // Step 2: Check if the username or email already exists
-  const usernameExists = await User.findOne({ username });
-  if (usernameExists) {
-    res.status(400);
-    console.log("Username already exists:", usernameExists);
-    throw new Error("Username already taken!");
-  }
-
-  const userAvailable = await User.findOne({ email });
-  if (userAvailable) {
-    res.status(400);
-    console.log("User already registered:", userAvailable);
-    throw new Error("User with this email already registered!");
-  }
-
-  // Step 3: OTP Verification
-  if (!otp) {
-    // Generate OTP if not provided
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
-    otpStore.set(email, generatedOtp); // Store OTP temporarily
-    console.log(`Generated OTP for ${email}: ${generatedOtp}`);
-
-    // Send OTP to user's email
-    await sendOtpEmail(email, generatedOtp);
-
-    return res.status(200).json({ message: "OTP sent to email!" });
-  } else {
-    // Verify the provided OTP
-    const storedOtp = otpStore.get(email);
-
-    if (!storedOtp || parseInt(otp) !== storedOtp) {
+    // Step 2: Check if the username or email already exists
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) {
+      console.log("Username already exists:", usernameExists);
       res.status(400);
-      console.log("Invalid or expired OTP for email:", email);
-      throw new Error("Invalid or expired OTP!");
+      throw new Error("Username already taken!");
     }
 
-    // OTP is valid; remove from store
-    otpStore.delete(email);
-    console.log("OTP verified successfully for email:", email);
-  }
+    const userAvailable = await User.findOne({ email });
+    if (userAvailable) {
+      console.log("User already registered:", userAvailable);
+      res.status(400);
+      throw new Error("User with this email already registered!");
+    }
 
-  // Step 4: Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
-  console.log("Hashed Password:", hashedPassword);
+    // Step 3: OTP Verification
+    if (!otp) {
+      const generatedOtp = Math.floor(100000 + Math.random() * 900000);
+      otpStore.set(email, generatedOtp);
+      console.log(`Generated OTP for ${email}: ${generatedOtp}`);
 
-  // Step 5: Generate unique ID and status
-  const uniqueId = uuidv4();
-  const status = `Active-${uniqueId}`;
+      // Send OTP to user's email
+      await sendOtpEmail(email, generatedOtp);
 
-  // Step 6: Create a new user in the database
-  const user = await User.create({
-    username,
-    email,
-    password: hashedPassword,
-    uniqueId,
-    status,
-    fullName: fullName || null,
-    description: description || null,
-    dob: dob || null,
-    gender: gender || null,
-    profilePic: profilePic || null,
-    location: location || null,
-    contactNumber: contactNumber || null,
-    address: address || null,
-    jobRole: jobRole || null,
-    level: level || null,
-  });
+      return res.status(200).json({ message: "OTP sent to email!" });
+    } else {
+      const storedOtp = otpStore.get(email);
+      console.log(`Stored OTP for ${email}:`, storedOtp);
 
-  console.log("User created successfully:", user);
+      if (!storedOtp || parseInt(otp) !== storedOtp) {
+        console.log("Invalid or expired OTP for email:", email);
+        res.status(400);
+        throw new Error("Invalid or expired OTP!");
+      }
 
-  // Step 7: Send success response
-  if (user) {
-    res.status(201).json({
-      _id: user.id,
-      email: user.email,
-      uniqueId: user.uniqueId,
-      status: user.status,
+      otpStore.delete(email);
+      console.log("OTP verified successfully for email:", email);
+    }
+
+    // Step 4: Hash the password
+    console.log("Hashing password...");
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Hashed Password:", hashedPassword);
+
+    // Step 5: Generate unique ID and status
+    const uniqueId = uuidv4();
+    const status = `Active-${uniqueId}`;
+    console.log("Generated Unique ID and Status:", uniqueId, status);
+
+    // Step 6: Create a new user in the database
+    console.log("Creating user in database...");
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      uniqueId,
+      status,
+      fullName: fullName || null,
+      description: description || null,
+      dob: dob || null,
+      gender: gender || null,
+      profilePic: profilePic || null,
+      location: location || null,
+      contactNumber: contactNumber || null,
+      address: address || null,
+      jobRole: jobRole || null,
+      level: level || null,
     });
-    console.log("User registration successful:", user.email);
-  } else {
-    res.status(400);
-    console.log("Invalid user data");
-    throw new Error("User data is not valid");
+
+    console.log("User created successfully:", user);
+
+    // Step 7: Send success response
+    if (user) {
+      res.status(201).json({
+        _id: user.id,
+        email: user.email,
+        uniqueId: user.uniqueId,
+        status: user.status,
+      });
+      console.log("User registration successful:", user.email);
+    } else {
+      console.log("Invalid user data");
+      res.status(400);
+      throw new Error("User data is not valid");
+    }
+  } catch (error) {
+    console.error("Error during user registration:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
