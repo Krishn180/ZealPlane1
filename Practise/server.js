@@ -33,8 +33,7 @@ app.use(
 // Handle preflight requests
 app.options("*", cors()); // Handle OPTIONS requests for all routes
 
-const port =
-  process.env.PORT || (process.env.NODE_ENV === "production" ? 5000 : 4000);
+const port = process.env.PORT || 5000; // Default to 5000 if no PORT environment variable is set
 
 // Route middlewares
 app.use("/api/contacts", contactsRoutes);
