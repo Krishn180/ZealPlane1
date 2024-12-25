@@ -229,33 +229,30 @@ const AvatarComponent = () => {
                 <div className="card-body" style={{ marginRight: "10px" }}>
                   <Row justify="center" align="middle">
                     <Col>
-                      <Upload
-                      // showUploadList={false}
-                      // beforeUpload={beforeUpload}
-                      >
-                        {imageLink || profilePic ? (
-                          <Avatar
-                            size={130}
-                            gap={2}
-                            src={imageLink || profilePic}
-                            style={{
-                              boxShadow: "0 0 10px rgba(255, 0, 0, 0.8)",
-                              border: "2px solid rgba(255, 0, 0, 0.8)",
-                            }}
-                          />
-                        ) : (
-                          <Avatar
-                            size={150}
-                            gap={2}
-                            icon={<UserOutlined size={36} />}
-                            style={{
-                              boxShadow: "0 0 10px rgba(255, 0, 0, 0.8)",
-                              border: "2px solid rgba(255, 0, 0, 0.8)",
-                            }}
-                            onClick={openModal}
-                          />
-                        )}
-                      </Upload>
+                      {profilePic ? (
+                        <Avatar
+                          size={130}
+                          gap={2}
+                          src={imageLink || profilePic}
+                          style={{
+                            boxShadow: "0 0 10px rgba(255, 0, 0, 0.8)",
+                            border: "2px solid rgba(255, 0, 0, 0.8)",
+                            cursor: "pointer",
+                          }}
+                          onClick={openModal}
+                        />
+                      ) : (
+                        <Avatar
+                          size={150}
+                          gap={2}
+                          icon={<UserOutlined size={36} />}
+                          style={{
+                            boxShadow: "0 0 10px rgba(255, 0, 0, 0.8)",
+                            border: "2px solid rgba(255, 0, 0, 0.8)",
+                          }}
+                          onClick={openModal}
+                        />
+                      )}
 
                       {/* Use the modal component here */}
                       <ProfileImageUploadModal

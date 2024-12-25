@@ -60,6 +60,7 @@ const ProfileImageUploadModal = ({
         },
       });
       closeModal(); // Close the modal after upload is successful
+      setIsUploaded(true);
     }, 3000);
   };
 
