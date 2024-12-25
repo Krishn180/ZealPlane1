@@ -58,3 +58,20 @@
     margin-top: 10px; /* Adjust the margin for better fit on smaller screens */
   }
 }
+
+// ProfileImageUploadModal.scss
+@media (max-width: 768px) {
+  .ant-modal {
+    width: 90% !important; // Adjust width for smaller screens
+    top: 10% !important; // Ensure modal is centered vertically
+  }
+  .image-preview-actions {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    align-items: center; /* Center align buttons */
+  }
+
+  .edit-btn,
+  .delete-btn {
+    margin: 5px 0; /* Adjust button margin for better spacing */
+  }
+}

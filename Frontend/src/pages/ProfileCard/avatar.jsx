@@ -221,7 +221,7 @@ const AvatarComponent = () => {
                         background: "transparent",
                         borderRadius: "50%",
                         padding: "4px",
-                        boxShadow: "0 0 10px rgba(215, 203, 205, 0.8)",
+                        boxShadow: "0 0 9px rgba(215, 203, 205, 0.8)",
                       }}
                     />
                   )}
@@ -252,63 +252,27 @@ const AvatarComponent = () => {
                               boxShadow: "0 0 10px rgba(255, 0, 0, 0.8)",
                               border: "2px solid rgba(255, 0, 0, 0.8)",
                             }}
+                            onClick={openModal}
                           />
                         )}
-                        <div
-                          className="upload-overlay"
-                          style={{ display: "none" }}
-                        >
-                          {<UploadOutlined onClick={openModal} />}
-                        </div>
                       </Upload>
 
-                      <div>
-                        <Modal
-                          title="User Details"
-                          visible={modalVisible}
-                          onCancel={closeModal}
-                          footer={null}
-                        >
-                          {loading ? (
-                            <Spin />
-                          ) : (
-                            imageLink && (
-                              <img
-                                src={imageLink}
-                                alt="User Image"
-                                style={{ maxWidth: "100%" }}
-                              />
-                            )
-                          )}
-                          <Button
-                            type="button"
-                            // onClick={handleProfileUpload}
-                            style={{
-                              background:
-                                "linear-gradient(45deg, #232146, #3b2055)",
-                              border: "none",
-                              color: "#fff",
-                              padding: "10px 15px",
-                              borderRadius: "4px",
-                              cursor: "pointer",
-                              transition: "background 0.3s", // Add transition for smooth effect
-                            }}
-                            onMouseOver={(e) => {
-                              e.target.style.background =
-                                "linear-gradient(45deg, #3b2055, #232146)";
-                            }}
-                            onMouseOut={(e) => {
-                              e.target.style.background =
-                                "linear-gradient(45deg, #232146, #3b2055)";
-                            }}
-                          >
-                            Upload Image
-                          </Button>
-                          <Button type="button" onClick={closeModal}>
-                            Ok
-                          </Button>
-                        </Modal>
-                      </div>
+                      {/* Use the modal component here */}
+                      <ProfileImageUploadModal
+                        modalVisible={modalVisible}
+                        closeModal={closeModal}
+                        handleFileChange={handleFileChange}
+                        handleFormSubmit={handleFormSubmit}
+                        loading={loading}
+                        profilePic={profilePic}
+                        setFile={setFile}
+                      />
+                      <EnquiryModal
+                        open={isEnquiryModalOpen}
+                        onClose={handleEnquiryClose}
+                        phoneNumber="1234567890" // Pass WhatsApp number
+                        emailAddress={email} // Pass email address
+                      />
                     </Col>
                   </Row>
 

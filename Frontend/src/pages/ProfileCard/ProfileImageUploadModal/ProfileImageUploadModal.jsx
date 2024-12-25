@@ -30,18 +30,21 @@ const ProfileImageUploadModal = ({
   const [uploadProgress, setUploadProgress] = useState(0); // Track upload progress
   const [previewImage, setPreviewImage] = useState(profilePic); // Handle live preview
   const [fileInputKey, setFileInputKey] = useState(Date.now()); // Ensure a new key for file input when user changes the image
+  const [isUploaded, setIsUploaded] = useState(false); // Track if image is uploaded
 
   const MAX_FILE_SIZE_MB = 5; // Maximum file size allowed (5 MB)
 
   const simulateUpload = (file) => {
     setUploading(true);
     setUploadProgress(0);
+    setIsUploaded(false); // Reset the uploaded state
 
     const progressInterval = setInterval(() => {
       setUploadProgress((prevProgress) => {
         if (prevProgress >= 100) {
           clearInterval(progressInterval);
           setUploading(false);
+          setIsUploaded(true); // Mark as uploaded
           return 100;
         }
         return prevProgress + 20;
@@ -103,7 +106,7 @@ const ProfileImageUploadModal = ({
           loading={loading}
           disabled={!previewImage}
         >
-          {loading ? <Spin /> : "Submit"}
+          {isUploaded ? "OK" : loading ? <Spin /> : "Submit"}
         </Button>,
       ]}
     >
@@ -125,7 +128,8 @@ const ProfileImageUploadModal = ({
               <Button
                 icon={<EditOutlined />}
                 className="edit-btn"
-                onClick={handleChangeClick} // Trigger file input click
+                onClick={handleChangeClick}
+                onTouchStart={handleChangeClick} // Add support for touch events
               >
                 Change
               </Button>
