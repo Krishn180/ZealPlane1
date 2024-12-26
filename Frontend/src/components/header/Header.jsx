@@ -26,6 +26,7 @@ const Header = () => {
   const userId = userIdRedux || userIdLocalStorage;
   const [userName, setUserName] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
+
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,7 +82,16 @@ const Header = () => {
   }, [lastScrollY]);
 
   const handleProfileClick = () => {
-    setShowProfileOptions(!showProfileOptions);
+    setIsClicked(!isClicked); // Toggle the click state
+    setShowProfileOptions(!showProfileOptions); // Toggle the profile options visibility
+  };
+  // Show profile options on hover
+  const handleMouseEnter = () => {
+    setShowProfileOptions(true); // Show options on hover
+  };
+
+  const handleMouseLeave = () => {
+    setShowProfileOptions(false); // Hide options when mouse leaves
   };
 
   const handleVisitProfile = () => {
@@ -135,7 +145,11 @@ const Header = () => {
             <FaBell />
           </li>
 
-          <li className="menuItem1">
+          <li
+            className="menuItem1 profile-container"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <img
               src={profilePic || avatar}
               alt="Profile"
@@ -143,17 +157,26 @@ const Header = () => {
               onClick={handleProfileClick}
             />
             {userName && (
-              <span className="username" onClick={handleProfileClick}>
+              <span
+                className="username"
+                onClick={handleProfileClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
                 {userName}
               </span>
             )}
             {showProfileOptions && (
-              <div className="profile-options">
+              <div
+                className={`profile-options ${
+                  showProfileOptions ? "active" : ""
+                }`}
+              >
                 <ul>
                   <li onClick={handleVisitProfile}>Profile</li>
                   <hr />
                   <li>
-                    <Logout /> {/* Use the Logout component here */}
+                    <Logout />
                   </li>
                   <li onClick={() => navigate("/settings")}>
                     <FiSettings className="header-icon" /> Settings

@@ -102,25 +102,7 @@
     .communityIcon {
         font-size: 18px;
     }
-    /* Hover Text (Initially Hidden) */
-    .hoverText {
-        display: none;
-        position: absolute;
-        top: -110%; /* Position below the icon */
-        left: 50%;
-        transform: translateX(-50%);
-        background: transparent;
-        color: rgb(217, 216, 216);
-        padding: 5px 10px;
-        border-radius: 10px;
-        // border: 0.1px solid rgb(63, 63, 63);
-        font-size: 14px;
-        white-space: nowrap;
-    }
-    .iconWrapper:hover .hoverText {
-        display: block;
-        z-index: 10;
-    }  
+   
 
 
     .search-bar {
@@ -285,17 +267,27 @@
         
     }
 
-
+    .profile-container {
+        position: relative; /* Ensure the profile options are positioned relative to this container */
+      
+       }
+       .profile-options.active {
+        display: flex; /* Show only when active class is added */
+    }    
 
     .profile-options {
         position: absolute;
         top: 60px; /* Adjust this depending on your header height */
         // left: 0px;
+        margin-left: -80px;
         background-color: #1e1e1e; /* DeviantArt dark background */
         border-radius: 8px;
         padding: 5px;
         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5); /* Deeper shadow for more contrast */
-        display: flex;
+        display: none;
+        &.active {
+            display: flex;
+          }
         flex-direction: column;
         z-index: 1000;
         width: 200px; /* Increased width */
@@ -335,3 +327,5 @@
         
     }
     }
+
+   

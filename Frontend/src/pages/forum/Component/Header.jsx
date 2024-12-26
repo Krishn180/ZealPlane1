@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  FaSearch,
-  FaUserCircle,
-  FaTimes,
-  FaBars,
-  FaPlus,
-} from "react-icons/fa";
+import { FaSearch, FaUserCircle, FaPlus } from "react-icons/fa";
+import { FiMenu, FiPlus, FiX } from "react-icons/fi";
 import { BsChatDots } from "react-icons/bs";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BiLogIn } from "react-icons/bi";
@@ -78,9 +73,16 @@ const Header = () => {
       <div className="left-menu">
         <div className="hamburger-menu" onClick={toggleSidebar}>
           {isSidebarOpen ? (
-            <FaTimes className="icon" />
+            <FiX className="icon" />
           ) : (
-            <FaBars className="icon" />
+            <FiMenu
+              style={{
+                border: "0.1px solid #383636",
+                strokeWidth: "1.2",
+                padding: "2px",
+              }}
+              className="icon"
+            />
           )}
         </div>
 
@@ -99,8 +101,11 @@ const Header = () => {
           <Link to="/forum/create-post" className="nav-link">
             {window.innerWidth <= 700 ? (
               <div className="iconWrapper">
-                <FaPlus className="createPostIcon" />
-                <span className="hoverText">Create Post</span>{" "}
+                <FiPlus
+                  className="createPostIcon"
+                  style={{ fontSize: "24px" }}
+                />
+                {/* <span className="hoverText">Create Post</span>{" "} */}
                 {/* Optional for tooltip */}
               </div>
             ) : (
@@ -121,7 +126,7 @@ const Header = () => {
         </div>
       </div>
       <div className="header-icons">
-        <Link to="/messages" className="icon-link" data-tooltip="Messages">
+        {/* <Link to="/messages" className="icon-link" data-tooltip="Messages">
           <BsChatDots />
         </Link>
         <Link
@@ -130,7 +135,7 @@ const Header = () => {
           data-tooltip="Notifications"
         >
           <IoMdNotificationsOutline />
-        </Link>
+        </Link> */}
         <Link
           to="/login"
           className="icon-link"

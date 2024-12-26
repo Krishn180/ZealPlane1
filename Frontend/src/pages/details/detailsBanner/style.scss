@@ -44,7 +44,7 @@
     .content {
         display: flex;
         position: relative;
-        flex-direction: column;
+        // flex-direction: column;
         gap: 25px;
         @include md {
             gap: 50px;
@@ -223,4 +223,17 @@
             }
         }
     }
+}
+
+@media screen and (max-width: 926px){
+    .content{
+        flex-direction: column;
+    }
+    .mySwiper2{
+        margin-left: 2px;
+    }
+    .swiper{
+        width: 350px;
+    }
+    
 }

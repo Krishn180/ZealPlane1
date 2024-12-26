@@ -81,12 +81,14 @@ body {
     .search-bar input {
       padding: 0.5rem 0.4rem 0.3rem 2rem;
       font-size: 14px;
-      width: 150px;
-      margin-left: -15px;
+      width: 190px;
+      // margin-left: -15px;
     }
     .search-bar .search-icon{
-      left: 0;
+      left: 10px;
+      color: #c3c4c5;
     }
+    
     .search-results-list{
       width: 390px;
       left: -45px;
@@ -106,7 +108,7 @@ body {
       // align-items: center;
       .nav-link {
        border: none;
-        padding: 4px 12px;
+        padding: 4px 5px;
       }
      
     }
@@ -124,6 +126,7 @@ body {
         width: 40px;
         height: 40px;
       }
+    
     }
   }
 
@@ -133,7 +136,7 @@ body {
     // }
     
    .header-logo img {
-      width: 36px;
+      width: 33px;
     }
     .header-icons {
       gap: 1px;
