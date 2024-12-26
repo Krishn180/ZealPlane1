@@ -102,7 +102,25 @@
     .communityIcon {
         font-size: 18px;
     }
-   
+    //  Hover Text (Initially Hidden) */
+    .hoverText {
+         display: none;
+         position: absolute;
+         top: -110%; /* Position below the icon */
+         left: 50%;
+         transform: translateX(-50%);
+         background: transparent;
+         color: rgb(217, 216, 216);
+         padding: 5px 10px;
+         border-radius: 10px;
+         // border: 0.1px solid rgb(63, 63, 63);
+         font-size: 14px;
+         white-space: nowrap;
+     }
+    .iconWrapper:hover .hoverText {
+        display: block;
+         z-index: 10;
+    }  
 
 
     .search-bar {
