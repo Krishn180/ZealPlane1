@@ -169,7 +169,7 @@ const projectsData = [
     status: "In Progress",
     tags: "Developer",
     genre: "FullStack Developer",
-    ThumnailLink: 
+    ThumnailLink:
       "https://umacart.com/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-06-at-12.47.50-PM.jpeg",
     ThumnailLinks: [
       "https://i.ibb.co/928K9yr/Screenshot-304.png",

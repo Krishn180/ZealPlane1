@@ -19,7 +19,7 @@
         cursor: pointer;
         opacity: 0.7;
         z-index: 1;
-        display: none;
+        // display: none;
         @include md {
             display: block;
         }
@@ -58,6 +58,7 @@
             .posterBlock {
                 border-radius: 12px;
                 width: 90%;
+                
                 aspect-ratio: 1 / 1.5;
                 margin-bottom: 30px;
             }
@@ -80,17 +81,17 @@
         display: flex;
         // gap: 10px;
         overflow-y: hidden;
-        // margin-right: -20px;
-        // margin-left: -20px;
+        margin-right: -20px;
+        margin-left: -20px;
         padding: 0 20px;
         @include md {
-            gap: 5px;
+            gap: 2px;
             overflow: hidden;
             margin: 0;
             padding: 0;
         }
         .carouselItem {
-            // width: 125px;
+            width: 125px;
             cursor: pointer;
             @include md {
                 width: calc(25% - 15px);

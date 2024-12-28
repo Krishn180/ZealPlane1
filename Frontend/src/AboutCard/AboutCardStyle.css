@@ -220,7 +220,7 @@
 
 .backa-image img {
     width: 90%; /* Adjust image size for mobile */
-    height: auto; /* Maintain aspect ratio */
+    /* height: auto;  */
 }
 
 }

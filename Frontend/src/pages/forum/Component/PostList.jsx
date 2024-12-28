@@ -158,8 +158,8 @@ const PostBody = ({ body }) => {
         dangerouslySetInnerHTML={{
           __html: isExpanded
             ? body || "No content available"
-            : body && body.length > 100
-            ? body.substring(0, 100) + "..."
+            : body && body.length > 1000
+            ? body.substring(0, 1000) + "..."
             : body || "No content available",
         }}
         style={{ whiteSpace: "pre-wrap" }}

@@ -217,6 +217,9 @@ const PostDetail = () => {
           <Sidebar />
         </div>
         <div className="post-content">
+          <div className="empty">
+            <br />
+          </div>
           <PostInfo
             post={post}
             status={status}

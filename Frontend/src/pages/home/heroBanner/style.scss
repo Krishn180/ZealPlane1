@@ -50,7 +50,7 @@ $netflix-font-family: 'Helvetica Neue', sans-serif; // Consistent font
       background: linear-gradient(
         111deg, 
         rgba(0, 0, 0, 0.7) 20%,
-        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.3) 65%,
         
         rgba(0, 0, 0, 0) 100%
         
@@ -212,7 +212,7 @@ $netflix-font-family: 'Helvetica Neue', sans-serif; // Consistent font
 
   .swiper-slide img {
     max-width: 100%;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 10px;
   }
 
@@ -312,9 +312,28 @@ $netflix-font-family: 'Helvetica Neue', sans-serif; // Consistent font
     .heroBanner .swiper {
       height: 350px; /* Reduced height for smaller screens */
     }
-    .title{
-      font-size: 1.3rem;
+    .titleDescriptionWrapper{
+      bottom: 50px;
     }
+    .title{
+      font-size: 1.2rem;
+      margin-bottom: 0.1px;
+    }
+    .description{
+      font-size: 1.1rem;
+    }
+    .staticContent .icons .icon{
+      font-size: 20px;
+    } 
+    .staticContent .userInfo .profilePicture{
+      width: 35px;
+      height: 35px;
+    }
+     .heroBanner .imageWrapper::before {
+      width: 75%;
+      height: 30%;
+    }
+
     .swiper.swiper-container {
       width: 400px; /* Full width for smaller screens */
       // height: 360px; /* Reduced height for mobile screens */
