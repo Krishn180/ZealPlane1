@@ -18,7 +18,7 @@ const SearchResult = () => {
     setLoading(true); // Set loading to true before fetching data
     try {
       const res = await axiosInstance.get(
-        `http://localhost:5000/api/users/username/${query}`,
+        `http://api.comicplane.site/api/users/username/${query}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (Array.isArray(res.data) && res.data.length > 0) {
