@@ -27,7 +27,7 @@ import "swiper/css/pagination";
 import Anonimous from "../../../../public/anonymous-profile-silhouette-b714qekh29tu1anb.png";
 
 // TruncatedDescription Component
-const TruncatedDescription = ({ description, maxLength = 100 }) => {
+const TruncatedDescription = ({ description, maxLength = 130 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleReadMore = () => {
@@ -39,7 +39,7 @@ const TruncatedDescription = ({ description, maxLength = 100 }) => {
       {isExpanded ? description : `${description.substring(0, maxLength)}..`}
       {description.length > maxLength && (
         <span className="readMore" onClick={toggleReadMore}>
-          {isExpanded ? " Read Less" : " Read More"}
+          {isExpanded ? " ." : " ..."}
         </span>
       )}
     </div>

@@ -9,7 +9,7 @@ const Post = ({ post }) => {
         <span className="subreddit">
           <Link to={`/r/${post.subreddit}`}>r/{post.subreddit}</Link>
         </span>
-        • <span className="author"> Posted by u/{post.author}</span> •
+        • <span className="author"> Posted by / {post.author}</span> •
         <span className="timestamp">{post.timestamp}</span>
       </div>
       <h3 className="post-title">

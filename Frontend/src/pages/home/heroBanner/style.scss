@@ -45,12 +45,12 @@ $netflix-font-family: 'Helvetica Neue', sans-serif; // Consistent font
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 55%;
+      width: 60%;
       height:22%;  /* Apply gradient only on the bottom 20% of the image */
       background: linear-gradient(
         111deg, 
         rgba(0, 0, 0, 0.7) 20%,
-        rgba(0, 0, 0, 0.3) 65%,
+        rgba(0, 0, 0, 0.4) 65%,
         
         rgba(0, 0, 0, 0) 100%
         
@@ -129,7 +129,7 @@ $netflix-font-family: 'Helvetica Neue', sans-serif; // Consistent font
     left: 20px;
     z-index: 3  ; /* Ensure it's above the image */
     max-width: 90%;
-    color: whitesmoke;
+    color: #fff;
    
   }
 

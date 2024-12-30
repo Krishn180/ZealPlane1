@@ -88,7 +88,7 @@ const PostList = ({ initialPosts }) => {
                     {post.title || "No title available"}
                   </h3>
                   <span className="post-author">
-                    Posted by u/{post.author || "Anonymous"}
+                    Posted by / {post.author || "Anonymous"}
                   </span>
                   <span className="post-timestamp">
                     {post.timestamp

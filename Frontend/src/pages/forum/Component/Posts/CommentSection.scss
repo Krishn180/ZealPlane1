@@ -59,7 +59,7 @@
 
       .comment-author {
         font-weight: bold;
-        color: #62a4ff;
+        color: #fff;
       }
 
       .comment-timestamp {
@@ -77,8 +77,8 @@
     }
 
     .comment-actions {
-      display: flex;
-      gap: 10px;
+      
+   
 
       .like-button,
       .reply-button {
@@ -202,4 +202,10 @@
 .cancel-button:hover{
   background-color: #ff4500;
   color: #fff;
+}
+@media  (max-width:768px) {
+  .comments-section{
+    padding: 4px;
+  }
+  
 }
