@@ -56,7 +56,7 @@ const CommentsSection = ({ comments = [], setComments, postId }) => {
     try {
       // Send request to submit the new comment
       const response = await axios.post(
-        `http://localhost:5000/api/posts/${postId}/comments`,
+        `http://api.comicplane.site/api/posts/${postId}/comments`,
         { body: newComment },
         {
           headers: {

@@ -180,21 +180,19 @@
     }
   }
 
-  @media (max-width: 768px) {
-    .feedback .feedback-list .feedback-item .feedback-text {
-      font-size: 13px;
+  @media only screen and (max-width: 768px) {
+   .feedback-list .feedback-item .feedback-text {
+      font-size: 14px;
     }
 
-    .feedback .feedback-list .feedback-item {
-      width: 91vw;
+     .feedback-list .feedback-item {
+      // width: 91vw;
+      width: 100%;
     }
-
-    .feedback .feedback-form .feedback-input {
+    .feedback-form .feedback-input {
       width: 100%;
     }
 
-    .feedback .feedback-form .feedback-button {
-      width: 100%; /* Make button full width for small screens */
-    }
+ 
   }
 }

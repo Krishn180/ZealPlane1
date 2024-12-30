@@ -235,7 +235,9 @@ const ProjectComponent = () => {
                   color: "white",
                 }}
               >
-                <Typography variant="h6">{project.name}</Typography>
+                <Typography variant="h6" className="tab-title">
+                  {project.name}
+                </Typography>
               </div>
             </Card>
           ))
