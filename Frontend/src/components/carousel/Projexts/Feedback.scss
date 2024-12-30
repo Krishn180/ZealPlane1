@@ -69,7 +69,6 @@
         .delete-button {
           padding: 5px 10px;
           font-size: 13px;
-          border: 0.1px solid #ccc; /* Light border for minimal design */
           border-radius: 4px;
           color: #333; /* Dark text color for readability */
           background-color: transparent; /* Transparent background */
@@ -86,7 +85,7 @@
         }
       
         .edit-button {
-          color: #388e3c; 
+          color: #007bff; 
           border-color: #224023; 
           
           &:hover {
@@ -96,7 +95,7 @@
         }
       
         .delete-button {
-          color: #f44336; /* Red for delete */
+          color: #007bff; /* Red for delete */
           border-color: #511915; /* Red border */
           
           &:hover {

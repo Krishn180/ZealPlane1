@@ -94,7 +94,7 @@ const CommentsSection = ({ comments = [], setComments, postId }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/posts/${postId}/comments/${commentId}`,
+        `http://api.comicplane.site/api/posts/${postId}/comments/${commentId}`,
         {
           body: editingComment, // Include the new comment text
           commentId: commentId, // Include commentId in the body
@@ -126,7 +126,7 @@ const CommentsSection = ({ comments = [], setComments, postId }) => {
       try {
         // Send request to delete the comment from the backend
         await axios.delete(
-          `http://localhost:5000/api/posts/${postId}/comments/${commentId}`,
+          `http://api.comicplane.site/api/posts/${postId}/comments/${commentId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
