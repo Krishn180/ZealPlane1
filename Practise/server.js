@@ -23,8 +23,8 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: ["http://localhost:5000"],
-    // origin: ["http://comicplane.site", "https://comicplane.site"],
+    // origin: ["http://localhost:5000"],
+    origin: ["http://comicplane.site", "https://comicplane.site"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // If you're using cookies or sessions
     allowedHeaders: ["Content-Type", "Authorization"], // Allow headers that might be included in the request

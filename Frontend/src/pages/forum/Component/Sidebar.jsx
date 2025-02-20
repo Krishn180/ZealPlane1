@@ -49,12 +49,12 @@ const Sidebar = () => {
         </Link>
       </div>
 
-      <div className="sidebar-section">
+      {/* <div className="sidebar-section">
         <h3>Communities</h3>
-        {/* Check if there was an error fetching communities */}
+       
         {error && <p className="error-message">{error}</p>}
 
-        {/* Map over communities and display them dynamically */}
+   
         {communities.length > 0 ? (
           communities.map((community) => (
             <Link
@@ -70,10 +70,10 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* Add the Create Community button */}
+   
       <div className="create-community-btn">
         <button onClick={toggleModal}>Create Community</button>
-      </div>
+      </div> */}
 
       {/* Modal to create a community */}
       {isModalOpen && <CreateCommunityModal closeModal={toggleModal} />}

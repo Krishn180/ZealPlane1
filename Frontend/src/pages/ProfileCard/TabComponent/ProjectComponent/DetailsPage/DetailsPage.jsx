@@ -574,7 +574,7 @@ const DetailsPage = () => {
                 <p className="user-description">
                   Web Developer | Graphic Designer | ZealPlane Seller
                 </p>
-                <br />
+                {/* <br /> */}
                 <div className="user-actions">
                   <div className="like-info">
                     {likesCount > 0 ? (
@@ -600,6 +600,7 @@ const DetailsPage = () => {
                 </div>
               </div>
             </div>
+            <br />
             <Feedback />
           </div>
         </ContentWrapper>
