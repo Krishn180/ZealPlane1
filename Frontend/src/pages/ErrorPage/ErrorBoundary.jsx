@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import errorgif from "../../assets/vuillemin_NYTIMES_animated.gif";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -22,7 +23,23 @@ class ErrorBoundary extends Component {
       return (
         <div style={{ textAlign: "center", padding: "50px" }}>
           <h1>Something went wrong.</h1>
-          <button onClick={() => window.location.reload()}>Reload</button>
+          <img
+            src={errorgif}
+            alt="Error animation"
+            style={{ width: "300px", marginTop: "20px" }}
+          />
+          <br />
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              marginTop: "20px",
+              padding: "10px 20px",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            Reload
+          </button>
         </div>
       );
     }

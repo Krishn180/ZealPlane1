@@ -57,8 +57,6 @@ const registerUser = asynchandler(async (req, res) => {
       googleId, // Will be generated in backend if not provided
     } = req.body;
 
-    console.log("Received Request Body:", req.body);
-
     // Step 2: Check if the username or email already exists
     const usernameExists = await User.findOne({ username });
     if (usernameExists) {

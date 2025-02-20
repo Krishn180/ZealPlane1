@@ -15,7 +15,8 @@
       border-radius: 8px;
       padding: 20px;
       width: 90%;
-      max-width: 500px;
+      margin-left: 0;
+      max-width: 600px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   
       h2 {
@@ -27,7 +28,7 @@
   
       form {
         .form-group {
-          margin-bottom: 15px;
+          margin-bottom: 10px;
   
           label {
             display: block;
@@ -53,7 +54,7 @@
   
           textarea {
             resize: none;
-            height: 100px;
+            height: 150px;
           }
         }
   
@@ -92,4 +93,7 @@
       }
     }
   }
-  
+  :global(.ql-editor) {
+    color: black !important;
+    background-color: white !important;
+  }

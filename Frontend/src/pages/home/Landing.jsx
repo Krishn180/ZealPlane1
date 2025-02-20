@@ -6,7 +6,8 @@ import AboutCard from "../../AboutCard/AboutCard";
 import Section2 from "../../AboutCard/Section2";
 import Navbar from "../../AboutCard/Navbar";
 import LandingHeroSection from "../../AboutCard/LandingHeroSection";
-import Curated from './curated/Curated';
+import Curated from "./curated/Curated";
+import ComicSubmissionForm from "../../AboutCard/SubmitForm";
 
 const Landing = () => {
   return (
@@ -14,14 +15,14 @@ const Landing = () => {
       <Navbar />
       {/* <HeroBanner /> */}
       <LandingHeroSection />
-      
+
       <br />
       <br />
       <br />
       <br />
       <br />
-      <Curated/>
-      
+      <Curated />
+
       <AboutCard />
 
       <br />
@@ -32,8 +33,16 @@ const Landing = () => {
       <br />
       <br />
 
-      
       <Section2 />
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <ComicSubmissionForm />
 
       <br />
       <br />

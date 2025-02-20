@@ -30,6 +30,7 @@ import { io } from "socket.io-client";
 import Viewer from "./pages/ProfileCard/TabComponent/ProjectComponent/DetailsPage/Viewer";
 import SettingsPage from "./pages/setting/Setting";
 import BlankPage from "./pages/ProfileCard/TabComponent/ProjectComponent/DetailsPage/blank";
+import Checkout from "./components/checkout/Checkout";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,6 +75,7 @@ function App() {
         <Route path="/explore/:mediaType" element={<Explore />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>

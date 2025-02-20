@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./EditPostModal.scss";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const EditPostModal = ({ post, onClose, onEdit }) => {
   const [formData, setFormData] = useState({
@@ -20,6 +22,9 @@ const EditPostModal = ({ post, onClose, onEdit }) => {
     } else {
       setFormData({ ...formData, [name]: value });
     }
+  };
+  const handleBodyChange = (value) => {
+    setFormData({ ...formData, body: value }); // Update body using React Quill
   };
 
   const handleSubmit = (e) => {
@@ -47,11 +52,17 @@ const EditPostModal = ({ post, onClose, onEdit }) => {
           </div>
           <div className="form-group">
             <label>Body</label>
-            <textarea
+            {/* <textarea
               name="body"
               value={formData.body}
               onChange={handleChange}
               required
+            /> */}
+            <ReactQuill
+              value={formData.body}
+              onChange={handleBodyChange}
+              theme="snow"
+              placeholder="Edit your post content here..."
             />
           </div>
           {/* Render HTML from Body */}

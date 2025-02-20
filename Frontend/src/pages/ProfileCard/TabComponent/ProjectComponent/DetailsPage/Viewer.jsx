@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { PacmanLoader } from "react-spinners"; // Import the spinner
 import { useNavigate } from "react-router-dom";
+import products from "../../../../../assets/product"; // Importing products array
+import ProductCard from "../../../../../components/Product/ProductCard"; // Importing ProductCard component
 
 const Viewer = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -11,7 +13,10 @@ const Viewer = () => {
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [showPrevIcon, setShowPrevIcon] = useState(false);
   const [showNextIcon, setShowNextIcon] = useState(false);
-  const [loading, setLoading] = useState(true); // Track image loading state
+  const [loading, setLoading] = useState(true);
+
+  const [showOverlay, setShowOverlay] = useState(false);
+
   const navigate = useNavigate();
 
   const nextImage = () => {
@@ -44,7 +49,7 @@ const Viewer = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#000", // Fallback for transparency gaps
+        backgroundColor: "#000",
       }}
       onMouseMove={(e) => {
         const { clientX } = e;
@@ -65,12 +70,9 @@ const Viewer = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             color: "#fff",
-            fontSize: "24px",
-            fontWeight: "bold",
           }}
         >
-          <PacmanLoader color="orange" size={50} />{" "}
-          {/* Crunchyroll yellow color */}
+          <PacmanLoader color="orange" size={50} />
         </div>
       )}
 
@@ -78,7 +80,7 @@ const Viewer = () => {
         style={{
           maxWidth: "100%",
           maxHeight: "100%",
-          overflow: "auto", // Enables scrolling if the image is too large
+          overflow: "auto",
           position: "relative",
         }}
       >
@@ -86,17 +88,49 @@ const Viewer = () => {
           src={images[currentIndex]}
           alt={`Thumbnail ${currentIndex + 1}`}
           style={{
-            width: "100%", // Set the image width to 100% of the container
-            height: "auto", // Maintain the aspect ratio
-            objectFit: "contain", // Ensures the image fits within the container without distortion
+            width: "100%",
+            height: "auto",
+            objectFit: "contain",
             position: "relative",
+            cursor: "pointer",
           }}
-          onLoad={handleImageLoad} // Set loading to false when image is loaded
-          onError={() => setLoading(false)} // In case the image fails to load
+          onLoad={handleImageLoad}
+          onError={() => setLoading(false)}
+          onClick={() => setShowOverlay(true)}
         />
       </div>
 
-      {/* Previous Image Button */}
+      {showOverlay && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            color: "#fff",
+            zIndex: 10,
+          }}
+          onClick={() => setShowOverlay(false)}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "20px",
+              justifyContent: "center",
+            }}
+          >
+            <ProductCard product={products[currentIndex]} />
+          </div>
+        </div>
+      )}
+
       {showPrevIcon && currentIndex > 0 && (
         <div
           onClick={prevImage}
@@ -110,18 +144,13 @@ const Viewer = () => {
             borderRadius: "50%",
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             color: "#fff",
-            transition: "background-color 0.3s ease, transform 0.3s ease",
             zIndex: 1,
-            pointerEvents: currentIndex === 0 ? "none" : "auto", // Disable if at the first image
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           <FaChevronLeft size={30} />
         </div>
       )}
 
-      {/* Next Image Button */}
       {showNextIcon && (
         <div
           onClick={nextImage}
@@ -135,11 +164,8 @@ const Viewer = () => {
             borderRadius: "50%",
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             color: "#fff",
-            transition: "background-color 0.3s ease, transform 0.3s ease",
             zIndex: 1,
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           <FaChevronRight size={30} />
         </div>
