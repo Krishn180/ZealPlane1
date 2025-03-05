@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Setting.scss";
 import axiosInstance from "../../Auth/Axios";
@@ -6,12 +6,33 @@ import axiosInstance from "../../Auth/Axios";
 const SettingsPage = () => {
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState("");
+  const [address, setAddress] = useState("");
   const [verificationStatus, setVerificationStatus] = useState(null);
+  const userIdLocalStorage = localStorage.getItem("Id");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/users/${userIdLocalStorage}`
+        );
+        const userData = response.data.user;
+        console.log("user data is", userData);
+
+        setMobileNumber(userData.contactNumber || "");
+        setAddress(userData.address || "");
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userIdLocalStorage]);
 
   const handleApplyVerification = async () => {
     try {
-      const response = await axiosInstance.post("/api/verification/apply", {
-        userId: localStorage.getItem("Id"),
+      await axiosInstance.post("/api/verification/apply", {
+        userId: userIdLocalStorage,
       });
       setVerificationStatus("Pending");
       alert("Verification request submitted!");
@@ -21,16 +42,21 @@ const SettingsPage = () => {
     }
   };
 
-  const handleUpdateMobile = async () => {
+  const handleUpdateInfo = async () => {
+    if (!mobileNumber && !address) {
+      alert("Please enter at least one field to update.");
+      return;
+    }
+
     try {
-      const response = await axiosInstance.put("/api/user/update-mobile", {
-        userId: localStorage.getItem("Id"),
-        mobileNumber,
+      await axiosInstance.put(`/users/${userIdLocalStorage}`, {
+        ...(mobileNumber && { mobileNumber }),
+        ...(address && { address }),
       });
-      alert("Mobile number updated successfully!");
+      alert("Information updated successfully!");
     } catch (error) {
-      console.error("Error updating mobile number:", error);
-      alert("Failed to update mobile number.");
+      console.error("Error updating information:", error);
+      alert("Failed to update information.");
     }
   };
 
@@ -41,11 +67,11 @@ const SettingsPage = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await axiosInstance.delete("/api/user/delete-account", {
-        data: { userId: localStorage.getItem("Id") },
+      await axiosInstance.delete("/api/user/delete-account", {
+        data: { userId: userIdLocalStorage },
       });
       alert("Account deleted successfully!");
-      navigate("/register"); // Redirect to registration page
+      navigate("/register");
     } catch (error) {
       console.error("Error deleting account:", error);
       alert("Failed to delete account.");
@@ -78,27 +104,32 @@ const SettingsPage = () => {
         </button>
       </div>
 
-      {/* Update Mobile Number */}
+      {/* Update Mobile Number & Address */}
       <div className="setting-item">
-        <h3>Update Mobile Number</h3>
+        <h3>Update Contact Info</h3>
+        <label>Mobile Number:</label>
         <input
           type="text"
           placeholder="Enter new mobile number"
           value={mobileNumber}
           onChange={(e) => setMobileNumber(e.target.value)}
         />
-        <button className="update-mobile-btn" onClick={handleUpdateMobile}>
-          Update Mobile Number
+        <label>Address:</label>
+        <input
+          type="text"
+          placeholder="Enter new address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <button className="update-info-btn" onClick={handleUpdateInfo}>
+          Update Info
         </button>
       </div>
 
       {/* Delete Account */}
       <div className="setting-item">
         <h3>Delete Account</h3>
-        <p>
-          Permanently delete your account. This action cannot be undone, and all
-          your data will be removed.
-        </p>
+        <p>Permanently delete your account. This action cannot be undone.</p>
         <button className="delete-account-btn" onClick={handleDeleteAccount}>
           Delete Account
         </button>
