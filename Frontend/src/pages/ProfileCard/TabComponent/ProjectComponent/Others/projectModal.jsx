@@ -17,6 +17,8 @@ import ContentWrapper from "../../../../../components/contentWrapper/ContentWrap
 import Img from "../../../../../components/lazyLoadImage/Img";
 import { MdClose } from "react-icons/md";
 import { jwtDecode } from "jwt-decode";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const ProjectModal = ({ open, onClose, onSubmit }) => {
   const userIdRedux = useSelector((state) => state.user.userId);
@@ -54,11 +56,19 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
   const [tagInput, setTagInput] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    if (typeof e === "string") {
+      // Handling ReactQuill input
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        description: e,
+      }));
+    } else if (e.target) {
+      const { name, value } = e.target;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleFileChange = (e) => {
@@ -201,7 +211,7 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
             },
           }}
         />
-        <TextField
+        {/* <TextField
           margin="dense"
           id="projectDescription"
           name="description"
@@ -224,7 +234,26 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
               color: "#e57373", // Red helper text color
             },
           }}
-        />
+        /> */}
+        <FormControl fullWidth sx={{ marginBottom: 2 }}>
+          <ReactQuill
+            margin="dense"
+            id="projectDescription"
+            value={formData.description}
+            onChange={handleChange}
+            theme="snow"
+            error={!!errors.description}
+            helperText={errors.description}
+            placeholder="Enter project description..."
+            style={{ backgroundColor: "#fff", color: "#000" }}
+          />
+          {errors.description && (
+            <FormHelperText sx={{ color: "#e57373" }}>
+              {errors.description}
+            </FormHelperText>
+          )}
+        </FormControl>
+
         <TextField
           margin="dense"
           placeholder="Add Tags"

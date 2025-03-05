@@ -497,7 +497,11 @@ const DetailsPage = () => {
                     />
                   </div>
                 )}
-                <div className="description1">{projectData.description}</div>
+                <div
+                  className="description1"
+                  dangerouslySetInnerHTML={{ __html: projectData.description }}
+                />
+
                 <div className="tags-views-container">
                   <div className="tags">
                     {projectData.tags && projectData.tags.length > 0 ? (
