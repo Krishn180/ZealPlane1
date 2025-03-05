@@ -3,7 +3,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { PacmanLoader } from "react-spinners"; // Import the spinner
 import { useNavigate } from "react-router-dom";
 import products from "../../../../../assets/product"; // Importing products array
-import ProductCard from "../../../../../components/Product/ProductCard"; // Importing ProductCard component
+import ProductCard from "../../../../../components/product/ProductCard";
 
 const Viewer = () => {
   const queryParams = new URLSearchParams(window.location.search);
