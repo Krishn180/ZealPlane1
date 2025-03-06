@@ -48,7 +48,7 @@ const TabComponent = () => {
             onClick={() => navigate(`/post/${thought._id}`)} // Navigate on click
           >
             <h4>{thought.title}</h4>
-            <p>{thought.body}</p>
+            <p dangerouslySetInnerHTML={{ __html: thought.body }}></p>
             <FaArrowRight className="navigation-icon" /> {/* Navigation icon */}
           </div>
         ))

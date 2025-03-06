@@ -26,7 +26,7 @@
       }
   
       h6 {
-        color: #f47521; // Crunchyroll orange for headings
+        color:  #ff4f00; // Crunchyroll orange for headings
         margin-bottom: 12px;
         font-weight: bold;
         font-size: 18px; // Bold, larger font for emphasis
@@ -49,7 +49,7 @@
   
   .MuiDialogActions-root {
     button {
-      background-color: #f47521; // Crunchyroll orange for action buttons
+      background-color:  #ff4f00; // Crunchyroll orange for action buttons
       color: #fff;
       &:hover {
         background-color: darken(#f47521, 10%); // Slightly darker on hover

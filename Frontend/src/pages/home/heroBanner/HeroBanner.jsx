@@ -808,8 +808,8 @@ const HeroBanner = ({ selectedPosterUrl }) => {
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 250px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 2.5), transparent);
+            height: 210px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 1.5), transparent);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -827,8 +827,8 @@ const HeroBanner = ({ selectedPosterUrl }) => {
           }
 
           .slide-overlay p {
-            font-size: 18px;
-            margin-bottom: 10px;
+            
+            {/* margin-bottom: 10px; */}
           }
 
           /* Profile Info */

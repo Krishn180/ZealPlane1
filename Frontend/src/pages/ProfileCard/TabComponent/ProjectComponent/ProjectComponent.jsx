@@ -246,7 +246,11 @@ const ProjectComponent = () => {
         )}
       </div>
       {status !== "visitor" && (
-        <Button variant="contained" onClick={handleOpen}>
+        <Button
+          variant="contained"
+          onClick={handleOpen}
+          style={{ background: " #ff4f00" }}
+        >
           Add Project
         </Button>
       )}
