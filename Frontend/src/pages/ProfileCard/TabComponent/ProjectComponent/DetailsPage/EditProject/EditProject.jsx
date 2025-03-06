@@ -13,6 +13,8 @@ import { FaPlus, FaTimes } from "react-icons/fa"; // Importing React Icons (Font
 import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../../../../Auth/Axios";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const UpdateProjectModal = ({
   open,
@@ -113,8 +115,11 @@ const UpdateProjectModal = ({
         <Typography variant="h6" sx={{ color: "#d7dadc", mb: 2 }}>
           Update Project
         </Typography>
+        <Typography variant="body1" sx={{ color: "#818384", mt: 2 }}>
+          Name
+        </Typography>
         <TextField
-          label="Name"
+          // label="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           fullWidth
@@ -129,31 +134,33 @@ const UpdateProjectModal = ({
             },
           }}
         />
-        <TextField
-          label="Description"
+        <Typography variant="body1" sx={{ color: "#818384", mt: 2 }}>
+          Description
+        </Typography>
+        <ReactQuill
+          theme="snow"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          fullWidth
-          margin="normal"
-          multiline
-          rows={4}
-          InputLabelProps={{ style: { color: "#818384" } }}
-          InputProps={{
-            style: {
-              color: "white", // Ensure text color is white
-            },
+          onChange={setDescription}
+          modules={{
+            toolbar: [
+              ["bold", "italic", "underline"],
+              [{ list: "ordered" }, { list: "bullet" }],
+            ],
+            clipboard: { matchVisual: false }, // Prevents background styles when pasting
           }}
-          sx={{
-            bgcolor: "#272729",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": { borderColor: "#343536" },
-              "&:hover fieldset": { borderColor: "#818384" },
-            },
-            "& .MuiInputBase-input": {
-              color: "white", // Ensure the input text color is white
-            },
-          }}
+          formats={["bold", "italic", "underline", "list", "bullet"]} // Restricts formats
+          style={{ backgroundColor: "#272729", color: "white" }}
         />
+        <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
+          {tags.map((tag) => (
+            <Chip
+              key={tag}
+              label={tag}
+              onDelete={() => handleRemoveTag(tag)}
+              sx={{ bgcolor: "#ff4500", color: "#fff" }}
+            />
+          ))}
+        </Box>
         <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
           {tags.map((tag) => (
             <Chip
@@ -220,7 +227,7 @@ const modalStyles = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 550,
   bgcolor: "#1a1a1b",
   borderRadius: "8px",
   boxShadow: 24,

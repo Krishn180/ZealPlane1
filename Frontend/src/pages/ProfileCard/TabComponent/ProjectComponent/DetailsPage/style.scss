@@ -402,6 +402,7 @@
 }
 
 // swiperStyles.scss
+
 .mySwiper {
   width: 60vw;
   height: 65vh; // Decrease height as needed for main Swiper container
@@ -452,6 +453,22 @@
 
 
 }
+
+.custom-next, .custom-prev {
+  display: block !important;
+  z-index: 10;
+  position: absolute;
+  top: 35%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.custom-next { right: 10px; }
+.custom-prev { left: 10px; }
+
 
 // thumbanil
 .mySwiper-thumbs {
@@ -784,4 +801,8 @@
   align-items: center; /* Align the icon and text vertically */
   font-size: 14px;
   color: #7f8c8d;
+}
+
+.swiper-wrapper {
+  height: auto ;
 }

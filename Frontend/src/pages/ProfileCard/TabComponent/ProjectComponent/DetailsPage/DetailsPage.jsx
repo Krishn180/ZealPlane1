@@ -445,7 +445,6 @@ const DetailsPage = () => {
                     </SwiperSlide>
                   )}
                 </Swiper>
-
                 {/* Thumbnail Swiper */}
                 <Swiper
                   onSwiper={setThumbsSwiper}
@@ -501,7 +500,6 @@ const DetailsPage = () => {
                   className="description1"
                   dangerouslySetInnerHTML={{ __html: projectData.description }}
                 />
-
                 <div className="tags-views-container">
                   <div className="tags">
                     {projectData.tags && projectData.tags.length > 0 ? (

@@ -546,14 +546,14 @@ import {
 } from "react-share";
 import { useRef } from "react";
 
-// import "./style.scss";
+import "./style.scss";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import Anonimous from "../../../../public/anonymous-profile-silhouette-b714qekh29tu1anb.png";
 
 // TruncatedDescription Component
-const TruncatedDescription = ({ description, maxLength = 130 }) => {
+const TruncatedDescription = ({ description, maxLength = 100 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleReadMore = () => {
@@ -562,10 +562,16 @@ const TruncatedDescription = ({ description, maxLength = 130 }) => {
 
   return (
     <div className="description">
-      {isExpanded ? description : `${description.substring(0, maxLength)}..`}
+      <span
+        dangerouslySetInnerHTML={{
+          __html: isExpanded
+            ? description
+            : `${description.substring(0, maxLength)}..`,
+        }}
+      />
       {description.length > maxLength && (
         <span className="readMore" onClick={toggleReadMore}>
-          {isExpanded ? " ." : " ."}
+          {isExpanded ? ".." : "."}
         </span>
       )}
     </div>
@@ -647,7 +653,7 @@ const HeroBanner = ({ selectedPosterUrl }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "90vh",
+        height: "95vh",
         position: "relative",
       }}
     >
@@ -665,8 +671,8 @@ const HeroBanner = ({ selectedPosterUrl }) => {
         effect="coverflow"
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={3}
-        spaceBetween={-40}
+        slidesPerView={window.innerWidth <= 768 ? 1 : 3}
+        spaceBetween={window.innerWidth <= 768 ? 10 : -40}
         coverflowEffect={{
           rotate: 15,
           stretch: 80,
@@ -720,10 +726,7 @@ const HeroBanner = ({ selectedPosterUrl }) => {
               {/* Overlay */}
               <div className="slide-overlay">
                 <h3>{project.name}</h3>
-                <TruncatedDescription
-                  description={project.description}
-                  maxLength={window.innerWidth <= 768 ? 25 : 90}
-                />
+                <TruncatedDescription description={project.description} />
 
                 {/* Profile & Username */}
                 <div className="profile-info">
@@ -797,7 +800,7 @@ const HeroBanner = ({ selectedPosterUrl }) => {
           . slide-image {
             width: 100%;
             height: 100%;
-            object-fit: conain;
+            object-fit: contain;
           }
 
           .slide-overlay {
@@ -834,6 +837,11 @@ const HeroBanner = ({ selectedPosterUrl }) => {
             align-items: center;
             gap: 8px;
             margin-top: 8px;
+            margin-bottom:10px;
+          }
+
+          .profile-info img{
+          width:32px;
           }
 
           .profile-pic img{
