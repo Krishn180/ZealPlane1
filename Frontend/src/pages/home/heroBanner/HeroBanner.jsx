@@ -531,6 +531,7 @@ import {
 import Img from "../../../components/lazyLoadImage/Img";
 import useFetch from "../../../hooks/useFetch";
 import { MdThumbUp, MdShare } from "react-icons/md";
+import { FaHeart } from "react-icons/fa";
 import { Modal } from "antd";
 import {
   FacebookShareButton,
@@ -671,7 +672,7 @@ const HeroBanner = ({ selectedPosterUrl }) => {
         effect="coverflow"
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={window.innerWidth <= 768 ? 1 : 3}
+        slidesPerView={window.innerWidth <= 1124 ? 1 : 3}
         spaceBetween={window.innerWidth <= 768 ? 10 : -40}
         coverflowEffect={{
           rotate: 15,
@@ -750,12 +751,13 @@ const HeroBanner = ({ selectedPosterUrl }) => {
                     className="icon-wrapper like"
                     onClick={() => handleLikeClick(project.projectId)}
                   >
-                    <MdThumbUp
-                      style={{ color: project.isLiked ? "blue" : "white" }}
+                    <FaHeart
+                      className="heart-icon"
+                      style={{ color: project.isLiked ? "red" : "white" }}
                     />
                   </div>
-                  <span className="likeCount">
-                    {project.likes} {project.likes === 1 ? "Like" : "Likes"}
+                  <span className="likeCount" style={{ marginTop: "7px" }}>
+                    {project.likes} {project.likes === 1 ? "" : ""}
                   </span>
                   <div
                     className="icon-wrapper share"
@@ -860,10 +862,10 @@ const HeroBanner = ({ selectedPosterUrl }) => {
           /* Like & Share Icons */
 .icons {
   position: absolute;
-  bottom: 25px;
-  right: 20px;
+  bottom: 20px;
+  right: 5px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 /* Icon Wrapper for Better Hover Effect */
@@ -878,11 +880,22 @@ const HeroBanner = ({ selectedPosterUrl }) => {
   cursor: pointer;
 }
 
-/* Like Icon */
+
+
+/* Hover Effect */
+.icon-wrapper.like:hover .heart-icon {
+  color: red !important;  /* Ensure color changes */
+  transform: scale(1.1); /* Slight zoom effect for better UX */
+  
+}
+
+/* Optional: Change background on hover */
 .icon-wrapper.like:hover {
   background: rgba(255, 0, 0, 0.3);
-  color: red;
+  border-radius: 50%;
 }
+
+
 
 /* Share Icon */
 .icon-wrapper.share:hover {
@@ -892,7 +905,7 @@ const HeroBanner = ({ selectedPosterUrl }) => {
 
 /* Icon Size */
 .icons svg {
-  font-size: 24px;
+  font-size: 23px;
 }
 .swiper-pagination {
   bottom: 10px !important;

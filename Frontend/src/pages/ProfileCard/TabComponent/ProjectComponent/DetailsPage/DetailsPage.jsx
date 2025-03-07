@@ -445,6 +445,7 @@ const DetailsPage = () => {
                     </SwiperSlide>
                   )}
                 </Swiper>
+
                 {/* Thumbnail Swiper */}
                 <Swiper
                   onSwiper={setThumbsSwiper}
