@@ -6,6 +6,7 @@ import {
   DialogActions,
   TextField,
   FormControl,
+  Typography,
   Chip,
   Button,
   IconButton,
@@ -235,17 +236,33 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
             },
           }}
         /> */}
+        <Typography variant="body1" sx={{ color: "#818384", mt: 2 }}>
+          Description
+        </Typography>
         <FormControl fullWidth sx={{ marginBottom: 2 }}>
           <ReactQuill
             margin="dense"
             id="projectDescription"
             value={formData.description}
-            onChange={handleChange}
+            onChange={(value) => {
+              const cleanValue = value.replace(/style="[^"]*"/g, ""); // Remove inline styles
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                description: cleanValue,
+              }));
+            }}
             theme="snow"
-            error={!!errors.description}
-            helperText={errors.description}
-            placeholder="Enter project description..."
-            style={{ backgroundColor: "#fff", color: "#000" }}
+            formats={[
+              "bold",
+              "italic",
+              "underline",
+              "list",
+              "bullet",
+              "link",
+              "image",
+            ]}
+            // placeholder="Enter project description..."
+            style={{ backgroundColor: "#272729", color: "white" }} // Black background & White text
           />
           {errors.description && (
             <FormHelperText sx={{ color: "#e57373" }}>

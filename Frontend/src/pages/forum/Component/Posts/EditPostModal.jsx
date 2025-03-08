@@ -51,7 +51,7 @@ const EditPostModal = ({ post, onClose, onEdit }) => {
             />
           </div>
           <div className="form-group">
-            <label>Body</label>
+            <label>Description</label>
             {/* <textarea
               name="body"
               value={formData.body}
@@ -63,6 +63,11 @@ const EditPostModal = ({ post, onClose, onEdit }) => {
               onChange={handleBodyChange}
               theme="snow"
               placeholder="Edit your post content here..."
+              style={{
+                backgroundColor: "#272729",
+                color: "white",
+                minHeight: "200px",
+              }}
             />
           </div>
           {/* Render HTML from Body */}

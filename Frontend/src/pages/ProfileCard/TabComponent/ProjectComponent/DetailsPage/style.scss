@@ -30,6 +30,7 @@
     overflow: hidden;
     width: fit-content;
 
+    
     .posterImg {
       display: block;
       border-radius: 12px;
@@ -311,7 +312,7 @@
   font-size: 12px;
   border-radius: 4px;
   color: white;
-  width: 60px;
+  // width: 60px;
   white-space: nowrap;
   display: inline-block;
   margin-right: 5px;
@@ -408,13 +409,15 @@
   height: 65vh; // Decrease height as needed for main Swiper container
   overflow: auto;
   margin-left: 0;
+  position: relative;
 
-    .swiper-slide {
+
+  .swiper-slide {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #000;
-      width: 100%; // Ensure each slide has a fixed width
+      background: #000 !important;
+      // width: 100%; 
       height: 100%; // Ensure each slide has a fixed height
       
 
@@ -435,39 +438,67 @@
   
 
 /* Custom styles for Swiper navigation buttons */
-.swiper-button-next,
-.swiper-button-prev {
+// .swiper-button-next,
+// .swiper-button-prev {
 
-  color: #fff; /* Set the color of the navigation arrows */
+//   color: #fff; /* Set the color of the navigation arrows */
+// }
+
+// /* Additional styling if you want the buttons to be more prominent */
+// .swiper-button-next::after,
+// .swiper-button-prev::after {
+//   font-size: 35px; /* Adjust the arrow icon size */
+// }
+
+// .swiper-button-next {
+//   right: 10px; /* Adjust position from the right */
+// }
+
+
+
 }
 
-/* Additional styling if you want the buttons to be more prominent */
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 35px; /* Adjust the arrow icon size */
-}
 
-.swiper-button-next {
-  right: 10px; /* Adjust position from the right */
-}
-
+.swiper-container {
+  position: relative;
+  width: 100%;
 
 }
 
-.custom-next, .custom-prev {
-  display: block !important;
-  z-index: 10;
+.swiper-main-wrapper {
+  position: relative;
+}
+
+.swiper-nav-buttons {
   position: absolute;
-  top: 35%;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 10px;
+  z-index: 10;
+}
+
+.custom-prev,
+.custom-next {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 40px;
+  color: #fff;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-.custom-next { right: 10px; }
-.custom-prev { left: 10px; }
+.swiper-pagination.custom-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
 
 
 // thumbanil

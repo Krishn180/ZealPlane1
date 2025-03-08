@@ -9,7 +9,7 @@ import {
   Chip,
   IconButton,
 } from "@mui/material";
-import { FaPlus, FaTimes } from "react-icons/fa"; // Importing React Icons (FontAwesome)
+import { FaPlus, FaTimes } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../../../../Auth/Axios";
@@ -31,7 +31,6 @@ const UpdateProjectModal = ({
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
 
-  // Fetch existing project data when modal opens
   useEffect(() => {
     if (open && projectId) {
       fetchProjectData();
@@ -75,7 +74,6 @@ const UpdateProjectModal = ({
     setLoading(true);
 
     try {
-      // Perform PUT request for updated fields
       if (name || description || tags.length) {
         await axiosInstance.put(
           `${apiBaseUrl}/projects/id/${projectId}`,
@@ -84,7 +82,6 @@ const UpdateProjectModal = ({
         );
       }
 
-      // Perform POST request for thumbnail image if updated
       if (thumbnailImage) {
         const formData = new FormData();
         formData.append("projectId", projectId);
@@ -99,8 +96,8 @@ const UpdateProjectModal = ({
       }
 
       toast.success("Project updated successfully!");
-      onProjectUpdate(); // Notify parent to refresh data
-      handleClose(); // Close modal
+      onProjectUpdate();
+      handleClose();
     } catch (error) {
       console.error("Error updating project:", error);
       toast.error("Error updating project. Please try again.");
@@ -115,24 +112,14 @@ const UpdateProjectModal = ({
         <Typography variant="h6" sx={{ color: "#d7dadc", mb: 2 }}>
           Update Project
         </Typography>
-        <Typography variant="body1" sx={{ color: "#818384", mt: 2 }}>
-          Name
-        </Typography>
         <TextField
-          // label="Name"
+          label="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           fullWidth
           margin="normal"
           InputLabelProps={{ style: { color: "#818384" } }}
-          sx={{
-            bgcolor: "#272729",
-            input: { color: "white" },
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": { borderColor: "#343536" },
-              "&:hover fieldset": { borderColor: "#818384" },
-            },
-          }}
+          sx={textFieldStyles}
         />
         <Typography variant="body1" sx={{ color: "#818384", mt: 2 }}>
           Description
@@ -141,14 +128,6 @@ const UpdateProjectModal = ({
           theme="snow"
           value={description}
           onChange={setDescription}
-          modules={{
-            toolbar: [
-              ["bold", "italic", "underline"],
-              [{ list: "ordered" }, { list: "bullet" }],
-            ],
-            clipboard: { matchVisual: false }, // Prevents background styles when pasting
-          }}
-          formats={["bold", "italic", "underline", "list", "bullet"]} // Restricts formats
           style={{ backgroundColor: "#272729", color: "white" }}
         />
         <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
@@ -157,43 +136,30 @@ const UpdateProjectModal = ({
               key={tag}
               label={tag}
               onDelete={() => handleRemoveTag(tag)}
-              sx={{ bgcolor: "#ff4500", color: "#fff" }}
+              sx={chipStyles}
             />
           ))}
         </Box>
-        <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
-          {tags.map((tag) => (
-            <Chip
-              key={tag}
-              label={tag}
-              onDelete={() => handleRemoveTag(tag)}
-              sx={{
-                bgcolor: "#ff4500",
-                color: "#fff",
-                "& .MuiChip-deleteIcon": { color: "#fff" },
-              }}
-            />
-          ))}
-        </Box>
-        <Box sx={{ display: "flex", mt: 2, gap: 1 }}>
+        <Box sx={{ display: "flex", mt: 2, flexDirection: "column", gap: 1 }}>
           <TextField
             label="Add Tag"
             value={newTag}
             onChange={(e) => setNewTag(e.target.value)}
             fullWidth
             InputLabelProps={{ style: { color: "#818384" } }}
-            sx={{
-              bgcolor: "#272729",
-              input: { color: "#d7dadc" },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "#343536" },
-                "&:hover fieldset": { borderColor: "#818384" },
-              },
-            }}
+            sx={textFieldStyles}
           />
-          <IconButton onClick={handleAddTag} sx={{ color: "#ff4500" }}>
-            <FaPlus /> {/* Using React Icon here */}
-          </IconButton>
+          <Button
+            onClick={handleAddTag}
+            variant="contained"
+            sx={{
+              bgcolor: "#ff4500",
+              "&:hover": { bgcolor: "#cc3700" },
+              color: "#fff",
+            }}
+          >
+            Add Tag
+          </Button>
         </Box>
         <input
           type="file"
@@ -208,7 +174,8 @@ const UpdateProjectModal = ({
             bgcolor: "#ff4500",
             color: "#fff",
             "&:hover": { bgcolor: "#cc3700" },
-            mt: 2,
+            // mt: 2,
+            marginLeft: "5px",
           }}
         >
           {loading ? (
@@ -227,12 +194,36 @@ const modalStyles = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 550,
+  maxWidth: 550,
+  width: "90%",
   bgcolor: "#1a1a1b",
   borderRadius: "8px",
   boxShadow: 24,
   p: 4,
   color: "#d7dadc",
+  overflowY: "auto",
+  maxHeight: "90vh",
+};
+
+const textFieldStyles = {
+  bgcolor: "#272729",
+  input: { color: "white" },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": { borderColor: "#343536" },
+    "&:hover fieldset": { borderColor: "#818384" },
+  },
+};
+
+const chipStyles = {
+  bgcolor: "#ff4500",
+  color: "#fff",
+};
+
+const buttonStyles = {
+  bgcolor: "#ff4500",
+  color: "#fff",
+  mt: 2,
+  "&:hover": { bgcolor: "#cc3700" },
 };
 
 export default UpdateProjectModal;

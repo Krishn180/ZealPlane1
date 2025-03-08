@@ -405,117 +405,140 @@ const DetailsPage = () => {
 
             <div className="content1">
               <div className="left1">
-                <Swiper
-                  style={{
-                    "--swiper-navigation-color": "#fff",
-                    "--swiper-pagination-color": "#fff",
-                  }}
-                  lazy={true}
-                  pagination={{
-                    clickable: true,
-                  }}
-                  thumbs={{ swiper: thumbsSwiper }}
-                  navigation={true}
-                  modules={[Pagination, Navigation, Thumbs]}
-                  className="mySwiper"
-                >
-                  {projectData.thumbnailImages &&
-                  projectData.thumbnailImages.length > 0 ? (
-                    projectData.thumbnailImages.map((image, index) => (
-                      <SwiperSlide
-                        key={index}
-                        onClick={() =>
-                          openViewer(projectData.thumbnailImages, index)
-                        }
-                      >
-                        <Img
-                          className="thumbImg"
-                          src={image || PosterFallback}
-                          alt={`Thumbnail ${index + 1}`}
-                        />
-                      </SwiperSlide>
-                    ))
-                  ) : (
-                    <SwiperSlide>
-                      <Img
-                        className="thumbImg"
-                        src={PosterFallback}
-                        alt="Thumbnail"
-                      />
-                    </SwiperSlide>
-                  )}
-                </Swiper>
+                <div className="swiper-container">
+                  <div className="swiper-main-wrapper">
+                    <Swiper
+                      style={{
+                        "--swiper-navigation-color": "#fff",
+                        "--swiper-pagination-color": "#fff",
+                      }}
+                      lazy={true}
+                      pagination={{
+                        el: ".custom-pagination", // ✅ Use custom selector
+                        clickable: true,
+                      }}
+                      thumbs={{ swiper: thumbsSwiper }}
+                      navigation={{
+                        nextEl: ".custom-next", // ✅ Use custom selectors
+                        prevEl: ".custom-prev",
+                      }}
+                      modules={[Pagination, Navigation, Thumbs]}
+                      className="mySwiper"
+                    >
+                      {projectData.thumbnailImages &&
+                      projectData.thumbnailImages.length > 0 ? (
+                        projectData.thumbnailImages.map((image, index) => (
+                          <SwiperSlide
+                            key={index}
+                            onClick={() =>
+                              openViewer(projectData.thumbnailImages, index)
+                            }
+                          >
+                            <Img
+                              className="thumbImg"
+                              src={image || PosterFallback}
+                              alt={`Thumbnail ${index + 1}`}
+                            />
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <SwiperSlide>
+                          <Img
+                            className="thumbImg"
+                            src={PosterFallback}
+                            alt="Thumbnail"
+                          />
+                        </SwiperSlide>
+                      )}
+                    </Swiper>
 
-                {/* Thumbnail Swiper */}
-                <Swiper
-                  onSwiper={setThumbsSwiper}
-                  spaceBetween={10}
-                  slidesPerView={4}
-                  freeMode={true}
-                  watchSlidesProgress={true}
-                  modules={[Navigation, Thumbs]}
-                  className="mySwiper-thumbs"
-                >
-                  {projectData.thumbnailImages &&
-                  projectData.thumbnailImages.length > 0 ? (
-                    projectData.thumbnailImages.map((image, index) => (
-                      <SwiperSlide key={index}>
-                        <Img
-                          className="thumbImg"
-                          src={image || PosterFallback}
-                          alt={`Thumbnail ${index + 1}`}
-                        />
-                      </SwiperSlide>
-                    ))
-                  ) : (
-                    <SwiperSlide>
-                      <Img
-                        className="thumbImg"
-                        src={projectData.thumbnailImages || PosterFallback}
-                        alt="Thumbnail"
-                      />
-                    </SwiperSlide>
-                  )}
-                </Swiper>
-                {status !== "visitor" && (
-                  <div
-                    className="plus-icon"
-                    style={{
-                      position: "absolute",
-                      right: "10px", // Adjust as needed
-                      padding: "10px",
-                      marginTop: "-60px",
-                      borderRadius: "10%",
-                    }}
-                  >
-                    <FaPlus
-                      title="Add Image"
-                      className="plus-icon-inner"
-                      style={{ fontSize: "21px" }}
-                      onClick={handleImageOpen}
-                      onTouchStart={handleImageOpen}
-                    />
+                    <div className="swiper-nav-buttons">
+                      <div className="swiper-button-prev custom-prev"></div>
+                      <div className="swiper-button-next custom-next"></div>
+                    </div>
+
+                    {/* ✅ Custom Pagination (Now inside `.swiper-main-wrapper`) */}
+                    <div className="swiper-pagination custom-pagination"></div>
                   </div>
-                )}
-                <div
-                  className="description1"
-                  dangerouslySetInnerHTML={{ __html: projectData.description }}
-                />
-                <div className="tags-views-container">
-                  <div className="tags">
-                    {projectData.tags && projectData.tags.length > 0 ? (
-                      projectData.tags.map((tag, index) => (
-                        <span key={index} className="tag-item">
-                          {tag}
-                        </span>
-                      ))
-                    ) : (
-                      <span>No tags available</span>
+
+                  <div className="swiper-thumbs-wrapper">
+                    {/* Thumbnail Swiper */}
+                    <Swiper
+                      onSwiper={setThumbsSwiper}
+                      spaceBetween={10}
+                      slidesPerView={4}
+                      freeMode={true}
+                      watchSlidesProgress={true}
+                      modules={[Navigation, Thumbs]}
+                      className="mySwiper-thumbs"
+                    >
+                      {projectData.thumbnailImages &&
+                      projectData.thumbnailImages.length > 0 ? (
+                        projectData.thumbnailImages.map((image, index) => (
+                          <SwiperSlide key={index}>
+                            <Img
+                              className="thumbImg"
+                              src={image || PosterFallback}
+                              alt={`Thumbnail ${index + 1}`}
+                            />
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <SwiperSlide>
+                          <Img
+                            className="thumbImg"
+                            src={projectData.thumbnailImages || PosterFallback}
+                            alt="Thumbnail"
+                          />
+                        </SwiperSlide>
+                      )}
+                    </Swiper>
+                    {status !== "visitor" && (
+                      <div
+                        className="plus-icon"
+                        style={{
+                          position: "absolute",
+                          right: "10px", // Adjust as needed
+                          padding: "10px",
+                          marginTop: "-60px",
+                          borderRadius: "10%",
+                        }}
+                      >
+                        <FaPlus
+                          title="Add Image"
+                          className="plus-icon-inner"
+                          style={{ fontSize: "21px" }}
+                          onClick={handleImageOpen}
+                          onTouchStart={handleImageOpen}
+                        />
+                      </div>
                     )}
                   </div>
-                  <div className="views">
-                    <FaEye style={{ marginRight: "8px", color: "#7f8c8d" }} />{" "}
-                    {view} views
+                </div>
+
+                <div className="description-container">
+                  <div
+                    className="description1"
+                    dangerouslySetInnerHTML={{
+                      __html: projectData.description,
+                    }}
+                  />
+                  <div className="tags-views-container">
+                    <div className="tags">
+                      {projectData.tags && projectData.tags.length > 0 ? (
+                        projectData.tags.map((tag, index) => (
+                          <span key={index} className="tag-item">
+                            {tag}
+                          </span>
+                        ))
+                      ) : (
+                        <span>No tags available</span>
+                      )}
+                    </div>
+                    <div className="views">
+                      <FaEye style={{ marginRight: "8px", color: "#7f8c8d" }} />{" "}
+                      {view} views
+                    </div>
                   </div>
                 </div>
               </div>

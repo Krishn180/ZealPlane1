@@ -202,7 +202,7 @@ const CreatePost = () => {
               />
             </div>
             <div className="form-group">
-              <label>Body</label>
+              <label>Description</label>
               <ReactQuill
                 value={body}
                 theme="snow"
