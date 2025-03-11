@@ -113,16 +113,29 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
-        // Check if token exists, if not, don't include Authorization header
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        // Get the user's IP address
+        const ipResponse = await axios.get(
+          "https://api64.ipify.org?format=json"
+        );
+        const userIp = ipResponse.data.ip;
 
+        // Set up headers, including token (if available)
+        const headers = {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        };
+
+        // Send request with projectId and user IP
         const response = await axiosInstance.get(
           `${apiBaseUrl}/projects/id/${projectId}`,
-          { headers }
+          {
+            headers,
+            params: { userIp }, // Send IP as a query param
+          }
         );
 
-        console.log("Project details are", response.data);
+        console.log("Project details not are", response.data);
 
+        // Set state variables with response data
         setProjectData(response.data.project);
         setLiked(response.data.project.likes);
         setLikesCount(response.data.project.likes || 0);
@@ -131,7 +144,7 @@ const DetailsPage = () => {
         setStatus(response.data.status);
         setProfilePic(response.data.project.profilePic);
         setUserName(response.data.project.username);
-        setView(response.data.project.views);
+        setView(response.data.Views); // Use updated views from backend
         console.log("Status is", status);
         console.log("Views are", view);
       } catch (error) {

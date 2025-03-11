@@ -67,6 +67,17 @@ const projectSchema = new mongoose.Schema(
       default: [],
     },
     views: { type: Number, default: 0 },
+    viewers: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          default: null,
+        },
+        ip: { type: String, default: null },
+        viewedAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

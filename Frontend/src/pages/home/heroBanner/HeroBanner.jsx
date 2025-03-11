@@ -776,7 +776,7 @@ const HeroBanner = ({ selectedPosterUrl }) => {
 
         .swiper{
         height:630px;
-        margin-top:60px;
+        margin-top:50px;
         }
         .swiper-slide{
       background:transparent;
@@ -790,6 +790,8 @@ const HeroBanner = ({ selectedPosterUrl }) => {
             transition: transform 0.5s ease, opacity 0.5s ease;
           }
 
+           
+     
           .slide-container {
             position: relative;
             {/* width: 700px; */}

@@ -23,56 +23,39 @@ const getAllProjects = async (req, res) => {
 
 const getProjectById = async (req, res) => {
   try {
-    // Find the project by projectId
-    const project = await Project.findOne({ projectId: req.params.projectId });
+    const projectId = req.params.projectId;
+    const userId = req.user ? req.user.id : null; // Authenticated user ID
+    const userIp =
+      req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress; // User IP
 
-    // If the project is not found, return a 404 response
+    const project = await Project.findOne({ projectId });
+
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    // Increment the view count every time the project is accessed
-    await Project.findByIdAndUpdate(
-      project._id,
-      { $inc: { views: 1 } }, // Increment the views by 1
-      { new: true } // Return the updated project
+    // Check if the userId or IP has already viewed the project
+    const hasViewed = project.viewers.some(
+      (viewer) => viewer.userId?.toString() === userId || viewer.ip === userIp
     );
 
-    // Get uniqueId from the token (if present)
-    const uniqueIdFromToken = req.user ? req.user.uniqueId : null;
-
-    // Check if uniqueId is present in the project
-    if (!project.uniqueId) {
-      return res.status(200).json({
-        project,
-        status: "visitor", // No uniqueId in project, status as visitor
-      });
+    if (!hasViewed) {
+      await Project.findByIdAndUpdate(
+        project._id,
+        {
+          $inc: { views: 1 }, // Increment views
+          $push: { viewers: { userId, ip: userIp, viewedAt: new Date() } }, // Store the viewer
+        },
+        { new: true }
+      );
     }
 
-    // If there is no token, return the project with status "visitor"
-    if (!uniqueIdFromToken) {
-      return res.status(200).json({
-        project,
-        status: "visitor", // User is a visitor, no authentication info available
-      });
-    }
-
-    // Compare the uniqueId from the token with the project's uniqueId
-    if (uniqueIdFromToken === project.uniqueId) {
-      // If the uniqueId matches, return the project with status "admin"
-      return res.status(200).json({
-        project,
-        status: "admin", // User is the admin of this project
-      });
-    }
-
-    // If the uniqueId doesn't match, return the project with status "visitor"
-    return res.status(200).json({
+    res.status(200).json({
       project,
-      status: "visitor", // User is a visitor, can't modify
+      totalViews: project.views + (hasViewed ? 0 : 1), // Return updated views
+      viewers: project.viewers, // Return viewer list
     });
   } catch (err) {
-    // Handle server errors
     res.status(500).json({ message: err.message });
   }
 };

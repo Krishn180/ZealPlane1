@@ -221,7 +221,7 @@
   .swiper-slide img {
     display: block;
     
-    // width: 100%;
+    // width: 100%;     
     height: 100%;
     // object-fit:contain;
    
@@ -262,6 +262,15 @@
 //     margin-top: 10px;
 // }
 
+
+@media (max-width: 768px) {
+    .swiper-slide img {
+    
+        
+         width: 100%;     
+        
+      }
+}
 
 //------------------ model box css-----------------
 
